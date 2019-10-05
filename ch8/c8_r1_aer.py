@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+
+print("Ch 8: IBM Qx simulators and how they are used")
+print("---------------------------------------------")
+
+# Import Qiskit and load account
+from qiskit import Aer, IBMQ
+IBMQ.load_account()
+provider = IBMQ.get_provider()
+
+
+# Load backends
+backends=Aer.backends()
+print("Aer backends:",backends)
+
+
+# Collect Aer simulators
+simulators=[]
+for sim in range(0,len(backends)):
+    backend = Aer.get_backend(str(backends[sim]))
+    simulators.append(backend.configuration())
+
+# Add IBM Q simulator
+ibmq_simulator=provider.backends(simulator=True)
+simulators.append(provider.get_backend(str(ibmq_simulator[0])).configuration())
+
+print("Simulator configuration details:", simulators)
+
+# Fish out criteria to compare
+print("{0:25} {1:<10} {2:<10} {3:<10}".format("Name","#Qubits","Max shots.","Description"))
+print("{0:25} {1:<10} {2:<10} {3:<10}".format("----","-------","--------","------------"))
+
+description=[]
+
+for sim in range(0,len(simulators)):
+    if simulators[sim].local==True:
+        description.append(simulators[sim].description)
+    elif simulators[sim].local==False:
+        description.append("Non local IBM Q simulator")
+    print("{0:25} {1:<10} {2:<10} {3:<10}".format(simulators[sim].backend_name,
+                                                  simulators[sim].n_qubits,
+                                                  simulators[sim].max_shots,
+                                                  description[sim]))
