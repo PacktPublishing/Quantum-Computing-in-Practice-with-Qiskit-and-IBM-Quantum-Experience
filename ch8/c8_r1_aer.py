@@ -13,7 +13,7 @@ provider = IBMQ.get_provider()
 
 # Load backends
 backends=Aer.backends()
-print("Aer backends:",backends)
+print("\nAer backends:\n\n",backends)
 
 
 # Collect Aer simulators
@@ -26,14 +26,19 @@ for sim in range(0,len(backends)):
 ibmq_simulator=provider.backends(simulator=True)
 simulators.append(provider.get_backend(str(ibmq_simulator[0])).configuration())
 
-print("Simulator configuration details:", simulators)
-
+# Display the raw simulator configuration details
+print("\nSimulator configuration details:")
+for sim in range(0,len(simulators)):
+    print("\n")
+    print(simulators[sim].backend_name)
+    print(simulators[sim])
+    
 # Fish out criteria to compare
+print("\n")
 print("{0:25} {1:<10} {2:<10} {3:<10}".format("Name","#Qubits","Max shots.","Description"))
 print("{0:25} {1:<10} {2:<10} {3:<10}".format("----","-------","--------","------------"))
 
 description=[]
-
 for sim in range(0,len(simulators)):
     if simulators[sim].local==True:
         description.append(simulators[sim].description)
