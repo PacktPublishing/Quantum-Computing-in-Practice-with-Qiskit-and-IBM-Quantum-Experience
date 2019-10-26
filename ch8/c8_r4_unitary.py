@@ -16,132 +16,83 @@ from math import pi, sqrt, pow
 import numpy as np
 np.set_printoptions(precision=3)
 
-print("Vector representations of our qubits:")
-print("-------------------------------------")
+# Create some circuits
+def circuits():
+    circuits=[]
+    # Circuit 1 - one qubit in superposition
+    circuit1 = QuantumCircuit(1,1)
+    circuit1.h(0)
+    # Circuit 2 - two qubits in superposition
+    circuit2 = QuantumCircuit(2,2)
+    circuit2.h([0,1])
+    # Circuit 3 - two entangled qubits
+    circuit3 = QuantumCircuit(2,2)
+    circuit3.h([0])
+    circuit3.cx(0,1)
+    # Bundle the circuits in a list and return the list
+    circuits=[circuit1,circuit2,circuit3]
+    return(circuits)
 
-qubits = {"q0":np.array([1,0]), "q1":np.array([0,1]), "qh":1/sqrt(2)*np.array([1,1]), "2q00":np.array([1,0,0,0])}
-print(qubits)
+# Get unitary matrix from unitary simulator 
+def show_unitary(circuit):
+    global unit
+    backend = Aer.get_backend('unitary_simulator') 
+    unit=execute(circuit, backend).result().get_unitary(qc)
+    print("Unitary matrix for the circuit:\n-------------------------------\n",unit)
 
-# Choose unitary simulator.
-backend = Aer.get_backend('unitary_simulator') 
+# Calculate and display the unitary matrix 
+def calc_unitary(circuit,unitary):
+    # Set number of shots
+    shots=1000
+    # Calculate possible number of outcomes, 2^n qubits
+    binary=int(pow(2,circuit.width()/2))    
+    # Set the binary key for correct binary conversion
+    bin_key='0'+str(int(circuit.width()/2))+'b'        
+    # Create a qubit vector based on all qubits in the ground state |0> and a results list for all possible outcomes.
+    vector=[1]
+    outcomes=[format(0, bin_key)+":"]
+    for q in range (1,binary):
+        vector.append(0)
+        outcomes.append(format(q, bin_key)+":")
+    qubits=np.array(vector)    
+    # Calculate the dot product of the unitary matrix and the qubits set by the qubits parameter.
+    a_thru_d=np.dot(unitary,qubits)    
+    # Print the probabilities (counts) of the calculated outcome.
+    calc_counts={}
+    for out in range (0,len(a_thru_d)):
+        calc_counts[outcomes[out]]=(int(pow(abs(a_thru_d[out]),2)*shots))
+    print("\nCalculated counts:\n------------------\n",calc_counts)    
+    # Automate creation of measurement gates from number of qubits 
+    q_meas=[]
+    for qb in range (0,int(circuit.width()/2)):
+        q_meas.append(qb)
+    # Run the circuit on the backend
+    circuit.measure(q_meas,q_meas)
+    backend_count = Aer.get_backend('qasm_simulator') 
+    counts=execute(circuit, backend_count,shots=shots).result().get_counts(qc)    
+    # Print the counts of the measured outcome.
+    print("\nExecuted counts:\n----------------\n",counts,"\n")
 
-# Create the required registers and the quantum circuit
-qc = QuantumCircuit(1,1)
-print(qc)
-qc.depth()
-
-# Get the unitary
-unit=execute(qc, backend).result().get_unitary(qc)
-print(unit)
-
-# Add a Hadamard gate
-qc.h(0)
-display(qc.draw())
-
-# Get the unitary
-unit=execute(qc, backend).result().get_unitary(qc)
-print(unit)
-
-# Add a Pauli Z gate
-qc.z(0)
-display(qc.draw())
-print(qc.depth())
-
-# Get the unitary
-unit=execute(qc, backend).result().get_unitary(qc)
-print(unit)
-
-# Add a measure gate
-qc.measure(0,0)
-display(qc.draw())
-
-# Run the circuit on the QASM simulator
-backend_count = Aer.get_backend('qasm_simulator') 
-counts=execute(qc, backend_count,shots=backend.configuration().max_shots).result().get_counts(qc)
-print("Executed:",counts)
-a_and_b=np.dot(unit,qubits['q1'])
-print("Calculated: '0':",pow(abs(a_and_b[0]),2),"'1':",pow(abs(a_and_b[1]),2))
-
-
-## Two qubit states
-
-# Create the required registers and the quantum circuit
-qc = QuantumCircuit(2,2)
-display(qc.draw())
-
-# Get the unitary
-unit=execute(qc, backend).result().get_unitary(qc)
-print(unit)
-
-qc.x(0)
-display(qc.draw())
-
-# Get the unitary
-unit=execute(qc, backend).result().get_unitary(qc)
-print(unit)
-
-qc.swap(0,1)
-display(qc.draw())
-
-# Get the unitary
-unit=execute(qc, backend).result().get_unitary(qc)
-print(unit)
-
-qc.measure([0,1],[0,1])
-display(qc.draw())
-
-backend_count = Aer.get_backend('qasm_simulator') 
-counts=execute(qc, backend_count,shots=backend.configuration().max_shots).result().get_counts(qc)
-print("Executed:",counts)
-a_thru_d=np.dot(unit,qubits['2q00'])
-print(a_thru_d)
-print("Calculated: '00':",pow(abs(a_thru_d[0]),2),"'01':",pow(abs(a_thru_d[1]),2),"'10':",pow(abs(a_thru_d[2]),2),"'11':",pow(abs(a_thru_d[3]),2))
-
-
-## Entangled states
-
-# Create the required registers and the quantum circuit
-qc = QuantumCircuit(2,2)
-display(qc.draw())
-
-
-# Get the unitary
-unit=execute(qc, backend).result().get_unitary(qc)
-print(unit)
-print(abs(unit))
-
-qc.h(0)
-display(qc.draw())
-
-# Get the unitary
-unit=execute(qc, backend).result().get_unitary(qc)
-print(unit)
-
-qc.cx(0,1)
-display(qc.draw())
-
-# Get the unitary
-unit=execute(qc, backend).result().get_unitary(qc)
-print(unit)
-
-qc.x(0)
-display(qc.draw())
-
-# Get the unitary
-unit=execute(qc, backend).result().get_unitary(qc)
-print(unit)
-
-qc.measure(0,0)
-qc.measure(1,1)
-display(qc.draw())
-
-backend_count = Aer.get_backend('qasm_simulator') 
-counts=execute(qc, backend_count,shots=1000).result().get_counts(qc)
-print("Executed:",counts)
-a_thru_d=np.dot(unit,qubits['2q00'])
-print(a_thru_d)
-print("Calculated: '00':",pow(abs(a_thru_d[0]),2),"'01':",pow(abs(a_thru_d[1]),2),"'10':",pow(abs(a_thru_d[2]),2),"'11':",pow(abs(a_thru_d[3]),2))
-
-
+# Main loop
+user_input=1
+print("\nEnter the number for the circuit to explore:\n--------------------------------------------")
+while user_input!=0:
+    print("\n0. Exit \n1. One qubit superposition\n2. Two qubit superposition\n3. Two qubit entanglement\n4. Import QASM from IBM Qx")
+    user_input=int(input())
+    if user_input!=0:
+        if user_input==4:
+            # From Qasm to Qiskit
+            print("Paste a QASM string after stripping off any measurement gates:")
+            qc = QuantumCircuit.from_qasm_str(input())
+            print("\nImported circuit:\n-----------------")
+        else:    
+            circ=circuits()
+            qc=circ[user_input-1]
+            print("\nSelected circuit:\n-----------------")
+        print(qc)
+        show_unitary(qc)
+        calc_unitary(qc,unit)
+    else:
+        print("Exiting")
 
 
