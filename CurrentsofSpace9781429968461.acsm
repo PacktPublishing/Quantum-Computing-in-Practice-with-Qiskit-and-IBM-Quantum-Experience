@@ -1,0 +1,37 @@
+<fulfillmentToken fulfillmentType="loan" auth="user" xmlns="http://ns.adobe.com/adept">
+  <distributor>urn:uuid:f1227b83-f91b-4f30-9ae2-0f65ffeea9ac</distributor>
+  <operatorURL>https://acsepub.contentreserve.com/fulfillment</operatorURL>
+  <transaction>DCPL~181-996780-00010_10ae269a-0a87-430a-98e4-2e251aec3f48-410</transaction>
+  <expiration>2019-12-04T03:59:01-05:00</expiration>
+  <resourceItemInfo>
+    <resource>urn:uuid:a3938d55-0c06-4126-8d68-66370f6b897c</resource>
+    <resourceItem>1</resourceItem>
+    <metadata>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">The Currents of Space</dc:title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Isaac Asimov</dc:creator>
+      <dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/">Tom Doherty Associates</dc:publisher>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">9781429968461</dc:identifier>
+      <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">application/epub+zip</dc:format>
+      <dc:language xmlns:dc="http://purl.org/dc/elements/1.1/">en-US</dc:language>
+      <thumbnailURL>https://images.cdn.overdrive.com/ImageType-200/2390-1/{10AE269A-0A87-430A-98E4-2E251AEC3F48}Img200.jpg</thumbnailURL>
+    </metadata>
+    <licenseToken>
+      <resource>urn:uuid:a3938d55-0c06-4126-8d68-66370f6b897c</resource>
+      <permissions>
+        <display>
+          <duration>1813412</duration>
+        </display>
+        <excerpt>
+          <duration>1813412</duration>
+        </excerpt>
+        <print>
+          <duration>1813412</duration>
+        </print>
+        <play>
+          <duration>1813412</duration>
+        </play>
+      </permissions>
+    </licenseToken>
+  </resourceItemInfo>
+  <hmac>KTvpuN8+tnv75rkqdgz40LzanWw=</hmac>
+</fulfillmentToken>
