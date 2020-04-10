@@ -5,9 +5,8 @@
 import numpy as np
 from math import sqrt, pow
 
-# Set up the bit and qubit vectors
-print("Vector representations of our bits and qubits")
-print("---------------------------------------------")
+print("Ch 2: Bits and qubits")
+print("---------------------")
 
 # Define the qubit parameters for superposition
 a = sqrt(1/2)
@@ -17,6 +16,8 @@ if round(pow(a,2)+pow(b,2),0)!=1:
     print("Your qubit parameters are not normalized.\nResetting to basic superposition")
     a = sqrt(1/2)
     b = sqrt(1/2)
+
+# Set up the bit and qubit vectors
 
 bits = {"bit = 0":np.array([1,0]), "bit = 1":np.array([0,1]), "|0>":np.array([1,0]), "|1>":np.array([0,1]), "(|0>+|1>)/\u221a2":np.array([a,b])}
 
