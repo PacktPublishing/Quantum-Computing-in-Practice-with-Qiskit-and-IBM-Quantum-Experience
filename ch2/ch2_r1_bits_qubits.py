@@ -19,11 +19,11 @@ if round(pow(a,2)+pow(b,2),0)!=1:
 
 # Set up the bit and qubit vectors
 
-bits = {"bit = 0":np.array([1,0]), "bit = 1":np.array([0,1]), "|0>":np.array([1,0]), "|1>":np.array([0,1]), "(|0>+|1>)/\u221a2":np.array([a,b])}
+bits = {"bit = 0":np.array([1,0]), "bit = 1":np.array([0,1]), "|0>":np.array([1,0]), "|1>":np.array([0,1]), "a|0>+b|1>":np.array([a,b])}
 
 # Print the vectors 
 for b in bits:
-  print(b, ": ", bits[b]) 
+  print(b, ": ", bits[b].round(3)) 
 print ("\n")
 
 # Do a "measurement" of the bits and qubits

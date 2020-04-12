@@ -5,6 +5,7 @@
 import numpy as np
 from math import sqrt, pow
 from qiskit.visualization import plot_bloch_vector
+from IPython import display
 
 
 print("Ch 2: Bloch sphere visualization of bits and qubits")
@@ -32,17 +33,9 @@ if round(pow(abs(a),2)+pow(abs(b),2),0)!=1:
 # Set up the bit and qubit vectors
 bits = {"bit = 0":np.matrix([1,0]), "bit = 1":np.matrix([0,1]), "|0>":np.matrix([1,0]), "|1>":np.matrix([0,1]), "a|0>+b|1>":np.matrix([a,b])}
 
-#print("|0>",bits["|0>"])
-#print("<0|", bits["|0>"].getH())
-#print("Pauli X",x)
-#print("Rho =|0><0|", bits["|0>"].getH()*bits["|0>"])
-#print("X*Rho", x*(bits["|0>"].getH()*bits["|0>"]))
-#print((np.trace(y*(bits["|0>"].getH()*bits["|0>"])).real))
-
 # Print the bits and qubits on the Bloch sphere 
 for b in bits:
     bloch=[(np.trace(x*(bits[b].getH()*bits[b]))).real,(np.trace(y*(bits[b].getH()*bits[b]))).real,(np.trace(z*(bits[b].getH()*bits[b]))).real]
-    display(plot_bloch_vector(bloch, title=b))
-    print("Y real:", (np.trace(y*(bits[b].getH()*bits[b])).real.round(3)))
-    print("Y imag:", (np.trace(y*(bits[b].getH()*bits[b])).imag))
-    print("State vector:", bits.get(b))
+    file=(plot_bloch_vector(bloch, title=b))
+    display(file)
+    print("State vector:", bits.get(b).round(3))
