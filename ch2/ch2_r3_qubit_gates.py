@@ -41,7 +41,7 @@ for g in gates:
 print("Vector representations of our two qubits:")
 print("-----------------------------------------")
 
-twoqubits = {"|00>":np.array([1,0,0,0]), "|01>":np.array([0,1,0,0]),"|10>":np.array([0,0,1,0]),"|11>":np.array([0,0,0,1]),}
+twoqubits = {"|00>":np.array([1,0,0,0]), "|01>":np.array([0,1,0,0]),"|10>":np.array([0,0,1,0]),"|11>":np.array([0,0,0,1])}
 
 for b in twoqubits:
   print(b, "\n", twoqubits[b]) 

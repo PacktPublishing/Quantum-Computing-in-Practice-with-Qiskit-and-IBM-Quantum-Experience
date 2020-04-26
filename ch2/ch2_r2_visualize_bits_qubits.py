@@ -5,6 +5,7 @@
 import numpy as np
 from math import sqrt, pow
 from qiskit.visualization import plot_bloch_vector
+import matplotlib
 
 print("Ch 2: Bloch sphere visualization of bits and qubits")
 print("----------------------------------------------------")
@@ -27,6 +28,7 @@ if round(pow(abs(a),2)+pow(abs(b),2),0)!=1:
     print("Your qubit parameters are not normalized.\nResetting to basic superposition")
     a = 1/sqrt(2)
     b = 1/sqrt(2)
+
 
 # Set up the bit and qubit vectors
 bits = {"bit = 0":np.matrix([1,0]), "bit = 1":np.matrix([0,1]), "|0>":np.matrix([1,0]), "|1>":np.matrix([0,1]), "a|0>+b|1>":np.matrix([a,b])}
