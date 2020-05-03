@@ -3,38 +3,31 @@
 
 # Let's start by importing numpy and math.
 import numpy as np
-from math import sqrt, pow
+import cmath 
+from math import pi, sin, cos
 from qiskit.visualization import plot_bloch_vector
-import matplotlib
+
+np.set_printoptions(precision=3)
 
 print("Ch 2: Bloch sphere visualization of bits and qubits")
 print("----------------------------------------------------")
 
-
-# Define the Pauli vectors
-x=np.matrix([[0,1],[1,0]])
-y=np.matrix([[0,-1j],[1j,0]])
-z=np.matrix([[1,0],[0,-1]])
-
 # Superposition with zero phase
-a = 1/sqrt(2)
-b = 1/sqrt(2)
+angles={"theta": pi/2, "phi":0}
 
-# Superposition with pi/8 phase angle
-#a = 1/sqrt(2)
-#b = 1/sqrt(2)*(0.923879533 + 0.382683432j)
-
-if round(pow(abs(a),2)+pow(abs(b),2),0)!=1:
-    print("Your qubit parameters are not normalized.\nResetting to basic superposition")
-    a = 1/sqrt(2)
-    b = 1/sqrt(2)
-
+# Self-defined qubit
+angles["theta"]=float(input("Theta:\n"))
+angles["phi"]=float(input("Phi:\n"))
 
 # Set up the bit and qubit vectors
-bits = {"bit = 0":np.matrix([1,0]), "bit = 1":np.matrix([0,1]), "|0>":np.matrix([1,0]), "|1>":np.matrix([0,1]), "a|0>+b|1>":np.matrix([a,b])}
+bits = {"bit = 0":{"theta": 0, "phi":0}, "bit = 1":{"theta": pi, "phi":0}, "|0>":{"theta": 0, "phi":0}, "|1>":{"theta": pi, "phi":0}, "a|0>+b|1>":angles}
 
 # Print the bits and qubits on the Bloch sphere 
 for bit in bits:
-    bloch=[(np.trace(x*(bits[bit].getH()*bits[bit]))).real,(np.trace(y*(bits[bit].getH()*bits[bit]))).real,(np.trace(z*(bits[bit].getH()*bits[bit]))).real]
+    bloch=[cos(bits[bit]["phi"])*sin(bits[bit]["theta"]),sin(bits[bit]["phi"])*sin(bits[bit]["theta"]),cos(bits[bit]["theta"])]
     display(plot_bloch_vector(bloch, title=bit))
-    print("State vector:", bits.get(bit).round(3))
+    # Build the state vector
+    a = cos(bits[bit]["theta"]/2)
+    b = cmath.exp(bits[bit]["phi"]*1j)*sin(bits[bit]["theta"]/2)
+    state_vector = [a * complex(1, 0), b * complex(1, 0)]
+    print("State vector:", np.around(state_vector, decimals = 3))
