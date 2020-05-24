@@ -12,6 +12,9 @@ from qiskit import Aer, IBMQ, execute
 from qiskit.tools.visualization import plot_histogram
 from qiskit.tools.monitor import job_monitor
 
+from  IPython.core.display import display
+
+
 # Load account
 IBMQ.load_account()
 provider = IBMQ.get_provider()

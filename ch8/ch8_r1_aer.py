@@ -43,7 +43,7 @@ for sim in range(0,len(simulators)):
     if simulators[sim].local==True:
         description.append(simulators[sim].description)
     elif simulators[sim].local==False:
-        description.append("Non local IBM Q simulator")
+        description.append("Non-local IBM Q simulator")
     print("{0:25} {1:<10} {2:<10} {3:<10}".format(simulators[sim].backend_name,
                                                   simulators[sim].n_qubits,
                                                   simulators[sim].max_shots,
