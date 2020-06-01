@@ -28,11 +28,11 @@ counts = result.get_counts(qc)
 print(counts)
 
 from qiskit.tools.visualization import plot_histogram
-plot_histogram(counts)
+display(plot_histogram(counts))
               
 from qiskit.tools.visualization import plot_bloch_vector
 #Display the Bloch vector for|0>.
-plot_bloch_vector([0,0,1], title='Qubit in ground state |0>') 
+display(plot_bloch_vector([0,0,1], title='Qubit in ground state |0>') )
 
 from qiskit.tools.visualization import plot_bloch_vector
 #Display the Bloch vector for|0>.
