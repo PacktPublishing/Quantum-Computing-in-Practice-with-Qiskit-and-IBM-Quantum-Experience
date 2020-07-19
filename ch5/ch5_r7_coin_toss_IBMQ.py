@@ -12,8 +12,10 @@ from qiskit import QuantumCircuit, execute
 from qiskit import IBMQ
 from qiskit.tools.monitor import job_monitor
 
-import Qconfig_IBMQ_experience
-IBMQ.enable_account(Qconfig_IBMQ_experience.APItoken)
+from IPython.core.display import display
+
+IBMQ.load_account()
+provider = IBMQ.get_provider()
 
 q = QuantumRegister(2)
 c = ClassicalRegister(2)
@@ -23,11 +25,11 @@ qc.h(q[0])
 qc.cx(q[0],q[1])
 qc.measure(q, c)
 
-print(qc)
+display(qc.draw('mpl'))
 
 from qiskit.providers.ibmq import least_busy
-backend = least_busy(IBMQ.backends(filters=lambda x: not x.configuration().simulator))
-backend.name()
+backend = least_busy(provider.backends(n_qubits=5, operational=True, simulator=False))
+print(backend.name())
 
 
 job = execute(qc, backend, shots=1000)

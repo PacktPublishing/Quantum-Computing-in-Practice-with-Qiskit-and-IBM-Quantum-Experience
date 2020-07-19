@@ -9,14 +9,17 @@ Created on Mon May 20 21:07:00 2019
 from qiskit import QuantumRegister, ClassicalRegister
 from qiskit import QuantumCircuit, Aer, execute
 
+from IPython.core.display import display
+
 q = QuantumRegister(2)
 c = ClassicalRegister(2)
 qc = QuantumCircuit(q, c)
 
-qc.h(q)
+qc.h(q[0])
+qc.cx(q[0],q[1])
 qc.measure(q, c)
 
-print(qc)
+display(qc.draw('mpl'))
 
 backend = Aer.get_backend('qasm_simulator')
 job = execute(qc, backend, shots=1)
@@ -25,6 +28,6 @@ counts = result.get_counts(qc)
 print(counts)
 
 from qiskit.tools.visualization import plot_histogram
-plot_histogram(counts)
+display(plot_histogram(counts))
 
 
