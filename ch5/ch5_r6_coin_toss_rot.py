@@ -13,7 +13,7 @@ from math import pi
 
 # Function that returns the state vector (Psi) for the circuit
 def get_psi(circuit, title):
-    show_bloch=True
+    show_bloch=False
     if show_bloch:
         from qiskit.visualization import plot_bloch_multivector
         backend = Aer.get_backend('statevector_simulator') 
