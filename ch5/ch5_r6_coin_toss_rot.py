@@ -6,40 +6,40 @@ Created on Mon May 20 21:07:00 2019
 @author: hnorlen
 """
 
-from qiskit import QuantumRegister, ClassicalRegister
 from qiskit import QuantumCircuit, Aer, execute
-
+from qiskit.tools.visualization import plot_histogram
 from IPython.core.display import display
+from math import pi
 
-from math import pi, sqrt
+# Function that returns the state vector (Psi) for the circuit
+def get_psi(circuit, title):
+    show_bloch=True
+    if show_bloch:
+        from qiskit.visualization import plot_bloch_multivector
+        backend = Aer.get_backend('statevector_simulator') 
+        result = execute(circuit, backend).result()
+        psi = result.get_statevector(circuit)
+        print(title)
+        display(qc.draw('mpl'))
+        display(plot_bloch_multivector(psi)) 
 
-q = QuantumRegister(1)
-c = ClassicalRegister(1)
-qc = QuantumCircuit(q, c)
 
-qc.h(q[0])
-qc.ry(pi/8,q) 
-qc.measure(q, c)
+print("Ch 5: More Cheating quantum coin toss")
+print("-------------------------------------")
+
+qc = QuantumCircuit(1, 1)
+
+get_psi(qc, title='Qubit in ground state |0>')
+qc.h(0)
+get_psi(qc, title='Qubit in super position')
+qc.ry(pi/8,0)
+get_psi(qc, title='Qubit pi/8 radians closer to |1>') 
+qc.measure(0, 0)
 
 display(qc.draw('mpl'))
 
 backend = Aer.get_backend('qasm_simulator')
-job = execute(qc, backend, shots=1)
-result = job.result()
-counts = result.get_counts(qc)
-print(counts)
+counts = execute(qc, backend, shots=1000).result().get_counts(qc)
 
-from qiskit.tools.visualization import plot_histogram
 display(plot_histogram(counts))
               
-from qiskit.tools.visualization import plot_bloch_vector
-#Display the Bloch vector for|0>.
-display(plot_bloch_vector([0,0,1], title='Qubit in ground state |0>') )
-
-from qiskit.tools.visualization import plot_bloch_vector
-#Display the Bloch vector for|0>.
-display(plot_bloch_vector([1,0,0], title='Qubit in super position') )
-
-from qiskit.tools.visualization import plot_bloch_vector
-#Display the Bloch vector for|0>.
-display (plot_bloch_vector([0.924,0,-0.383], title='Qubit pi/8 radians closer to |1>') )

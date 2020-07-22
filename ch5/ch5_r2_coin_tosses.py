@@ -8,8 +8,12 @@ Created on Mon May 20 21:07:00 2019
 
 from qiskit import QuantumRegister, ClassicalRegister
 from qiskit import QuantumCircuit, Aer, execute
+from qiskit.tools.visualization import plot_histogram
 
 from IPython.core.display import display
+
+print("Ch 5: Quantum coin tosses")
+print("-------------------------")
 
 q = QuantumRegister(1)
 c = ClassicalRegister(1)
@@ -17,7 +21,6 @@ qc = QuantumCircuit(q, c)
 
 qc.h(q[0])
 qc.measure(q, c)
-
 display(qc.draw('mpl'))
 
 backend = Aer.get_backend('qasm_simulator')
@@ -26,7 +29,6 @@ result = job.result()
 counts = result.get_counts(qc)
 print(counts)
 
-from qiskit.tools.visualization import plot_histogram
 display(plot_histogram(counts))
 
 
