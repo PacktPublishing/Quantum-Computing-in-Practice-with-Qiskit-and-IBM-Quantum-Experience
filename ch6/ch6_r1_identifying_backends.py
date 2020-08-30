@@ -1,29 +1,31 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from qiskit import IBMQ
-from qiskit import QuantumRegister, ClassicalRegister
-from qiskit import QuantumCircuit, execute
+from qiskit import IBMQ, QuantumCircuit, execute
 from qiskit.tools.monitor import job_monitor
 
-IBMQ.load_account()
+print("Ch 6: Identifying backends")
+print("--------------------------")
+
+print("Getting provider...")
+if not IBMQ.active_account():
+    IBMQ.load_account()
 provider = IBMQ.get_provider()
 
-print("Available backends:")
+print("\nAvailable backends:")
 print(provider.backends(operational=True, simulator=False))
 
 backend = provider.get_backend('ibmqx2')
-print("Selected backend:", backend.name())
+print("\nSelected backend:", backend.name())
 
-q = QuantumRegister(2)
-c = ClassicalRegister(2)
-qc = QuantumCircuit(q, c)
+# Create a quantum circuit to test
+qc = QuantumCircuit(2,2)
 
-qc.h(q[0])
-qc.cx(q[0],q[1])
-qc.measure(q, c)
+qc.h(0)
+qc.cx(0,1)
+qc.measure([0,1],[0,1])
 
-print("Quantum circuit:")
+print("\nQuantum circuit:")
 print(qc)
 
 job = execute(qc, backend, shots=1000)
@@ -32,9 +34,9 @@ job_monitor(job)
 result = job.result()
 counts = result.get_counts(qc)
 
-print("Results:", counts)
+print("\nResults:", counts)
 
-print("Available simulator backends:")
+print("\nAvailable simulator backends:")
 print(provider.backends(operational=True, simulator=True))
 
 backend = provider.get_backend('ibmq_qasm_simulator')
@@ -44,7 +46,7 @@ job_monitor(job)
 result = job.result()
 counts = result.get_counts(qc)
 
-print("Simulator results:", counts) 
+print("\nSimulator results:", counts) 
 
 
 
