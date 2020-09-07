@@ -7,18 +7,17 @@ User interface software that demonstrates the quantum gates
 import numpy as np
 import random #To create random state vector
 import cmath #To juggle complex exponentials
-from math import  sqrt,pi,sin,cos
+from math import  sqrt, pi, sin, cos
+
+from IPython.core.display import display
 
 # Import the required Qiskit classes
-from qiskit import(
-  QuantumCircuit,
-  execute,
-  Aer)
+from qiskit import QuantumCircuit, execute, Aer
 
 # Import Blochsphere visualization
 from qiskit.visualization import plot_bloch_multivector, plot_state_qsphere
 
-# List our gates
+# Categorize our gates
 rot_gates=["rx","ry","rz"]
 unitary_gates=["u1","u2","u3"]
 single_gates=["id","x","y","z","t","tdg","s","sdg","h"]+rot_gates
@@ -30,11 +29,7 @@ all_gates=oneq_gates+twoq_gates+rot_gates+unitary_gates
 start_states=["1","+","-","R","L","r","d"]
 valid_start=["0"]+start_states
 
-# Set the global angle parameters
-global phi, theta, lam, start_theta, start_phi
-phi=0.0
-theta=0.0
-lam=0.0
+
 
 # Function that returns the state vector (Psi) for the circuit
 def get_psi(circuit):
@@ -139,46 +134,53 @@ def qgate(gate,start):
     
     return(circuit)
 
-
 # Main navigation
-print("Visualizing the quantum gates")
-print("-----------------------------")
-gate=""
+def main(): 
+    print("Visualizing the quantum gates")
+    print("-----------------------------")
+    
+    # Set the global parameters
+    global phi, theta, lam, start_theta, start_phi
+    phi=0.0
+    theta=0.0
+    lam=0.0
+    global gate
+    gate=""
+    
+    while gate !="exit":    
+        # Set up the start conditions
+        start=input("Start state:\n0. |0\u27E9 \n1. |1\u27E9 \n+. |+\u27E9\n-. |-\u27E9\nR. |R\u27E9\nL. |L\u27E9\nr. Random (a|0\u27E9 + b|1\u27E9)\nd. Define (\u03B8 and \u03D5)\n")
+        if start =="d":
+            # Specify initial vector
+            start_theta=float(input("Enter start \u03B8:\n"))
+            start_phi=float(input("Enter start \u03D5:\n"))
+        # Select a gate
+        print("Enter a gate:\nAvailable gates:\n",all_gates)
+        gate=input()
+        if gate in ["rx", "ry","u3"]:
+            theta=input("Enter rotation (\u03B8):\n")
+        if gate in ["u1","u2","u3","rz",]:
+            phi=input("Enter rotation (\u03D5):\n")
+        if gate in ["u2","u3"]:
+            lam=input("Enter rotation (\u03BB):\n")
+        if gate in all_gates and start in valid_start:
+            # Display the gate unitary for a blank circuit
+            blank_qc=qgate(gate,"n")
+            print("\nUnitary for the " + gate + " gate:\n")
+            print(np.around(get_unitary(blank_qc), decimals = 3))
+            # Build the quantum circuit for the gate
+            input("Press Enter to see the start setup...")
+            qc=qgate(gate, start)
+            # Visualize the circuit and the qubit(s)
+            input("Press Enter to see the result after the "+gate+" gate...")
+            qgate_out(qc,start)
+            input("Press Enter to test another gate...")
+        else:
+            if start not in valid_start:
+                print("Not a valid start state.")
+            if gate not in all_gates:
+                print("Not a valid gate.")
+            print("Try again...")
 
-while gate !="exit":    
-    # Set up the start conditions
-    start=input("Start state:\n0. |0\u27E9 \n1. |1\u27E9 \n+. |+\u27E9\n-. |-\u27E9\nR. |R\u27E9\nL. |L\u27E9\nr. Random (a|0\u27E9 + b|1\u27E9)\nd. Define (\u03B8 and \u03D5)\n")
-    if start =="d":
-        # Specify initial vector
-        start_theta=float(input("Enter start \u03B8:\n"))
-        start_phi=float(input("Enter start \u03D5:\n"))
-    # Select a gate
-    print("Enter a gate:\nAvailable gates:\n",all_gates)
-    gate=input()
-    if gate in ["rx", "ry","u3"]:
-        theta=input("Enter rotation (\u03B8):\n")
-    if gate in ["u1","u2","u3","rz",]:
-        phi=input("Enter rotation (\u03D5):\n")
-    if gate in ["u2","u3"]:
-        lam=input("Enter rotation (\u03BB):\n")
-    if gate in all_gates and start in valid_start:
-        # Display the gate unitary for a blank circuit
-        blank_qc=qgate(gate,"n")
-        print("\nUnitary for the " + gate + " gate:\n")
-        print(np.around(get_unitary(blank_qc), decimals = 3))
-        # Build the quantum circuit for the gate
-        input("Press Enter to see the start setup...")
-        qc=qgate(gate, start)
-        # Visualize the circuit and the qubit(s)
-        input("Press Enter to see the result after the "+gate+" gate...")
-        qgate_out(qc,start)
-        input("Press Enter to test another gate...")
-
-    else:
-        if start not in valid_start:
-            print("Not a valid start state.")
-        if gate not in all_gates:
-            print("Not a valid gate.")
-        print("Try again...")
-
-
+if __name__ == '__main__':
+    main()

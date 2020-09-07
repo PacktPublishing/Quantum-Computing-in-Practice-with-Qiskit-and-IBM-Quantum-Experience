@@ -7,18 +7,26 @@ Created on Wed May 13 19:41:46 2020
 """
 
 
-from qiskit import(
-  QuantumCircuit,
-  execute,
-  Aer)
+from qiskit import QuantumCircuit, execute, Aer
 
 from qiskit.visualization import plot_bloch_multivector, plot_state_qsphere
 
+# Import image and file processing tools
 from PIL import Image
 import os
 
 print("Animating the U gates")
 print("---------------------")
+
+# This program requires an /images directory at the same location as the script.
+dirName = 'images'
+print("Checking if /images directory exists...")
+if not os.path.exists(dirName):
+    os.mkdir(dirName)
+    print("Directory" , dirName ,  "created ")
+else:    
+    print("Directory" , dirName ,  "exists")
+
 
 def get_psi(circuit):
     global psi
@@ -86,18 +94,26 @@ def save_gif(gate):
     print("Bloch sphere animation saved as: \n"+os.getcwd()+"/"+gate+"_"+b_filename+".gif"+"\nQsphere animation saved as: \n"+os.getcwd()+"/"+gate+"_"+q_filename+".gif")
 
 # Main loop
-gate=""
-while gate !="exit": 
-    gate=input("Enter u3, u2, or u3:\n")
-    if gate =="u3":
-        theta=float(input("Enter \u03B8:\n"))
-    if gate in ["u3","u2","u1"]:
-        phi=float(input("Enter \u03D5:\n"))
-    if gate in ["u3","u2"]:
-        lam=float(input("Enter \u03BB:\n"))
-    if gate in ["u3","u2","u1"]:
-        print("Building animation...")
-        create_images(gate,theta,phi,lam)
-        save_gif(gate)
-    else:
-        print("Not a valid gate, try again...")
+def main(): 
+    global gate
+    gate=""
+    theta=0.0
+    phi=0.0
+    lam=0.0
+    while gate !="exit": 
+        gate=input("Enter u1, u2, or u3:\n")
+        if gate =="u3":
+            theta=float(input("Enter \u03B8:\n"))
+        if gate in ["u3","u2","u1"]:
+            phi=float(input("Enter \u03D5:\n"))
+        if gate in ["u3","u2"]:
+            lam=float(input("Enter \u03BB:\n"))
+        if gate in ["u3","u2","u1"]:
+            print("Building animation...")
+            create_images(gate,theta,phi,lam)
+            save_gif(gate)
+        else:
+            print("Not a valid gate, try again...")
+            
+if __name__ == '__main__':
+    main()
