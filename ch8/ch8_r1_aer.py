@@ -2,12 +2,15 @@
 # coding: utf-8
 
 
-print("Ch 8: IBM Qx simulators and how they are used")
-print("---------------------------------------------")
+print("Ch 8: IBM Q simulators and how they are used")
+print("--------------------------------------------")
 
 # Import Qiskit and load account
 from qiskit import Aer, IBMQ
-IBMQ.load_account()
+
+print("Getting provider...")
+if not IBMQ.active_account():
+    IBMQ.load_account()
 provider = IBMQ.get_provider()
 
 

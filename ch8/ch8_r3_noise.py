@@ -5,8 +5,7 @@ print("Ch 8: Adding the noise profile of an IBM Q machine to your local simulato
 print("--------------------------------------------------------------------------")
 
 # Import Qiskit and load account
-from qiskit import Aer, IBMQ, execute
-from qiskit import QuantumCircuit
+from qiskit import Aer, IBMQ, QuantumCircuit, execute
 from qiskit.providers.aer.noise import NoiseModel
 from qiskit.tools.visualization import plot_histogram
 from qiskit.tools.monitor import job_monitor
@@ -15,7 +14,9 @@ import numpy as np
 np.set_printoptions(precision=3)
 from  IPython.core.display import display
 
-IBMQ.load_account()
+print("Getting provider...")
+if not IBMQ.active_account():
+    IBMQ.load_account()
 provider = IBMQ.get_provider()
 
 global backend, noise_model
@@ -48,6 +49,14 @@ def build_noise_model(backend):
     return(noise_model)
     
 def execute_circuit(backend, noise_model):
+    # Basis gates for the noise model
+    basis_gates = noise_model.basis_gates
+    
+    # Coupling map
+    coupling_map = backend.configuration().coupling_map
+    
+    print("Coupling map: ",coupling_map)
+    
     # Construct the GHZ-state quantum circuit
     circ = QuantumCircuit(3, 3)
     circ.h(0)
@@ -55,17 +64,18 @@ def execute_circuit(backend, noise_model):
     circ.cx(0, 2)
     circ.measure([0,1,2], [0,1,2])
     print(circ)
+
     
     # Execute on QASM simulator and get counts
     counts = execute(circ, Aer.get_backend('qasm_simulator')).result().get_counts(circ)
     display(plot_histogram(counts, title='Ideal counts for 3-qubit GHZ state on local qasm_simulator'))
     
     # Execute noisy simulation on QASM simulator and get counts
-    counts_noise = execute(circ, Aer.get_backend('qasm_simulator'), noise_model=noise_model).result().get_counts(circ)
+    counts_noise = execute(circ, Aer.get_backend('qasm_simulator'), noise_model=noise_model, coupling_map=coupling_map, basis_gates=basis_gates).result().get_counts(circ)
     display(plot_histogram(counts_noise, title="Counts for 3-qubit GHZ state with noise model on local qasm simulator"))
 
     # Execute noisy simulation on the ibmq_qasm_simulator and get counts
-    counts_noise_ibmq = execute(circ, provider.get_backend('ibmq_qasm_simulator'), noise_model=noise_model).result().get_counts(circ)
+    counts_noise_ibmq = execute(circ, provider.get_backend('ibmq_qasm_simulator'), noise_model=noise_model, coupling_map=coupling_map, basis_gates=basis_gates).result().get_counts(circ)
     display(plot_histogram(counts_noise_ibmq, title="Counts for 3-qubit GHZ state with noise model on IBMQ qasm simulator"))
     
     # Execute job on IBM Q backend and get counts

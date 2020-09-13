@@ -16,7 +16,9 @@ from  IPython.core.display import display
 
 
 # Load account
-IBMQ.load_account()
+print("Getting provider...")
+if not IBMQ.active_account():
+    IBMQ.load_account()
 provider = IBMQ.get_provider()
 
 # Enter number of SWAP gates to include with your circuit with (default 20)
@@ -50,7 +52,7 @@ input("Press enter to run on an IBM Q backend...\n")
 
 # Import the least busy backend
 from qiskit.providers.ibmq import least_busy
-backend = least_busy(provider.backends(operational=True, simulator=False))
+backend = least_busy(provider.backends(n_qubits=5, operational=True, simulator=False))
 print("Least busy backend:",backend)
 
 # Execute and get counts

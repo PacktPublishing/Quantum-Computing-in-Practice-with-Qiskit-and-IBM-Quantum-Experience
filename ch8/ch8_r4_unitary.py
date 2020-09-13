@@ -5,10 +5,7 @@ print("Ch 8: Understanding your circuits with the unitary simulator")
 print("-----------------------------------------------------------")
 
 # Import the required Qiskit classes
-from qiskit import(
-  QuantumCircuit,
-  execute,
-  Aer)
+from qiskit import(QuantumCircuit, execute, Aer)
 
 # Import some math that we might need
 from math import pow
@@ -37,7 +34,7 @@ def circuits():
 def show_unitary(circuit):
     global unit
     backend = Aer.get_backend('unitary_simulator') 
-    unit=execute(circuit, backend).result().get_unitary(qc)
+    unit=execute(circuit, backend).result().get_unitary(circuit)
     print("Unitary matrix for the circuit:\n-------------------------------\n",unit)
 
 # Calculate and display the unitary matrix 
@@ -69,30 +66,33 @@ def calc_unitary(circuit,unitary):
     else: 
         circuit.measure([0,1],[0,1])
     backend_count = Aer.get_backend('qasm_simulator') 
-    counts=execute(circuit, backend_count,shots=shots).result().get_counts(qc)    
+    counts=execute(circuit, backend_count,shots=shots).result().get_counts(circuit)    
     # Print the counts of the measured outcome.
     print("\nExecuted counts:\n----------------\n",counts,"\n")
 
 # Main loop
-user_input=1
-print("\nEnter the number for the circuit to explore:\n--------------------------------------------")
-while user_input!=0:
-    print("\n0. Exit \n1. One qubit superposition\n2. Two qubit superposition\n3. Two qubit entanglement\n4. Import QASM from IBM Qx")
-    user_input=int(input())
-    if user_input!=0:
-        if user_input==4:
-            # From Qasm to Qiskit
-            print("Paste a QASM string after stripping off any measurement gates:")
-            qc = QuantumCircuit.from_qasm_str(input())
-            print("\nImported circuit:\n-----------------")
-        else:    
-            circ=circuits()
-            qc=circ[user_input-1]
-            print("\nSelected circuit:\n-----------------")
-        print(qc)
-        show_unitary(qc)
-        calc_unitary(qc,unit)
-    else:
-        print("Exiting")
+def main():
+    user_input=1
+    print("\nEnter the number for the circuit to explore:\n--------------------------------------------")
+    while user_input!=0:
+        print("\n0. Exit \n1. One qubit superposition\n2. Two qubit superposition\n3. Two qubit entanglement\n4. Import QASM from IBM Quantum Experience")
+        user_input=int(input())
+        if user_input!=0:
+            if user_input==4:
+                # From Qasm to Qiskit
+                print("Paste a QASM string after stripping off any measurement gates:")
+                qc = QuantumCircuit.from_qasm_str(input())
+                print("\nImported circuit:\n-----------------")
+            else:    
+                circ=circuits()
+                qc=circ[user_input-1]
+                print("\nSelected circuit:\n-----------------")
+            print(qc)
+            show_unitary(qc)
+            calc_unitary(qc,unit)
+        else:
+            print("Exiting")
 
 
+if __name__ == '__main__':
+    main()
