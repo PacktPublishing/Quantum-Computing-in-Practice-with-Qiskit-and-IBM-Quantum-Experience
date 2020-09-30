@@ -11,10 +11,12 @@ from qiskit import IBMQ
 from qiskit.tools.monitor import job_monitor
 from IPython.core.display import display
 
-IBMQ.load_account()
+print("Getting provider...")
+if not IBMQ.active_account():
+    IBMQ.load_account()
 provider = IBMQ.get_provider()
 
-print("Ch 5: Quantum coin toss on IBM Q backend")
+print("Ch 4: Quantum coin toss on IBM Q backend")
 print("----------------------------------------")
 
 qc = QuantumCircuit(2, 2)

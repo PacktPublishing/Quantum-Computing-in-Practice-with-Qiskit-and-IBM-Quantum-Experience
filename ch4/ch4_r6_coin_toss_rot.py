@@ -13,7 +13,7 @@ from math import pi
 
 # Function that returns the state vector (Psi) for the circuit
 def get_psi(circuit, title):
-    show_bloch=False
+    show_bloch=True
     if show_bloch:
         from qiskit.visualization import plot_bloch_multivector
         backend = Aer.get_backend('statevector_simulator') 
@@ -24,7 +24,7 @@ def get_psi(circuit, title):
         display(plot_bloch_multivector(psi)) 
 
 
-print("Ch 5: More Cheating quantum coin toss")
+print("Ch 4: More Cheating quantum coin toss")
 print("-------------------------------------")
 
 qc = QuantumCircuit(1, 1)

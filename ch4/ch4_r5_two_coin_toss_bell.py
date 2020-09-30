@@ -10,7 +10,7 @@ from qiskit import QuantumCircuit, Aer, execute
 from qiskit.tools.visualization import plot_histogram
 from IPython.core.display import display
 
-print("Ch 5: Cheating quantum coin toss")
+print("Ch 4: Cheating quantum coin toss")
 print("--------------------------------")
 
 qc = QuantumCircuit(2, 2)

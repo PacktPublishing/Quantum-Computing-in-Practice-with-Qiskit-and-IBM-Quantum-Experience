@@ -11,7 +11,7 @@ from qiskit.visualization import plot_histogram
 
 from IPython.core.display import display
 
-print("Ch 5: Upside down quantum coin toss")
+print("Ch 4: Upside down quantum coin toss")
 print("-----------------------------------")
 
 
