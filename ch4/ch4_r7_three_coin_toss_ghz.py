@@ -14,7 +14,7 @@ print("Ch 4: Three-qubit coin toss")
 print("---------------------------")
 
 
-qc = QuantumCircuit(3, 3)
+qc = QuantumCircuit(3, 6)
 
 qc.h([0,1,2])
 qc.measure([0,1,2],[0,1,2])
@@ -32,7 +32,7 @@ qc.reset([0,1,2])
 qc.h(0)
 qc.cx(0,1)
 qc.cx(0,2)
-qc.measure([0,1,2],[0,1,2])
+qc.measure([0,1,2],[3,4,5])
 
 display(qc.draw('mpl'))
 
