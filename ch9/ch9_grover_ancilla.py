@@ -10,8 +10,8 @@ from qiskit import QuantumCircuit, Aer, execute
 from IPython.core.display import display
 from qiskit.tools.visualization import plot_histogram
 
-print("Ch 10: Grover with ancilla qubits")
-print("---------------------------------") 
+print("Ch 9: Grover with ancilla qubits")
+print("--------------------------------")
 
 # Create 3 qubit circuit with two classical bits
 qc=QuantumCircuit(3,2)

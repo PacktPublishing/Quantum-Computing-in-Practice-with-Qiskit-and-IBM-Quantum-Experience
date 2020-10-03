@@ -6,7 +6,7 @@ Created on Sat Jun 13 17:24:58 2020
 @author: hnorlen
 """
 # Import the required functions
-from ch10_grover_functionsC3XGate import create_oracle, create_amplifier, create_grover, display_circuit, get_backend, run_grover, mitigated_results, transpile_circuit 
+from ch10_grover_functionsC3XGate import create_oracle, create_amplifier, create_grover, display_circuit, get_backend, run_grover, mitigated_results, transpile_circuit
 
 # Main loop
 def main():
@@ -14,8 +14,8 @@ def main():
     ibmqbackend=""
     while oracle_type!=0:
         sample_oracle="1"
-        print("\nCh 10: The Grover search algorithm ")
-        print("-----------------------------------")  
+        print("\nCh 9: The Grover search algorithm ")
+        print("----------------------------------")  
         size=int(input("Enter the number of qubits (2-5):\n"))
         if size>5: size=5
         for n in range(size-1):
