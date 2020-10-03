@@ -6,7 +6,6 @@ Created on Thu May 21 18:05:00 2020
 @author: hnorlen
 """
 
-
 # Import core IPython display method
 from IPython.core.display import display
 
@@ -19,16 +18,15 @@ def create_oracle(oracle_type,size):
     cr = ClassicalRegister(size)
     oracleCircuit=QuantumCircuit(qr,cr)
     oracle_type_rev=oracle_type[::-1]
-    for n in range(size-1,-1,-1):
-        if oracle_type_rev[n] =="0":
-            oracleCircuit.x(qr[n])
     oracleCircuit.h(qr[size-1])
     if size==2: 
         oracleCircuit.cx(qr[size-2],qr[size-1]);
     if size==3:
         oracleCircuit.ccx(qr[size-3],qr[size-2],qr[size-1])
-    if size>=4:
-        cccx(oracleCircuit,size)
+    if size==4:
+        oracleCircuit.mcx([qr[size-4],qr[size-3],qr[size-2]],qr[size-1])
+    if size>=5:
+        oracleCircuit.mcx([qr[size-5],qr[size-4],qr[size-3],qr[size-2]],qr[size-1])
     oracleCircuit.h(qr[size-1])
     for n in range(size-1,-1,-1):
         if oracle_type_rev[n] =="0":
@@ -47,8 +45,10 @@ def create_amplifier(size):
         amplifierCircuit.cx(qr[size-2],qr[size-1]);
     if size==3:
         amplifierCircuit.ccx(qr[size-3],qr[size-2],qr[size-1])
-    if size>=4:
-        cccx(amplifierCircuit,size)
+    if size==4:
+        amplifierCircuit.mcx([qr[size-4],qr[size-3],qr[size-2]],qr[size-1])
+    if size>=5:
+        amplifierCircuit.mcx([qr[size-5],qr[size-4],qr[size-3],qr[size-2]],qr[size-1])
     amplifierCircuit.h(qr[size-1])
     amplifierCircuit.barrier(qr)
     amplifierCircuit.x(qr)
@@ -73,26 +73,6 @@ def create_grover(oracleCircuit,amplifierCircuit,showstep):
     # Add measurements
     groverCircuit.measure(qr,cr)
     return(groverCircuit)
-    
-def cccx(circuit,size):
-    # Function that creates a controlled NOT for N qubits
-    from qiskit.quantum_info.operators import Operator
-    import numpy as np
-    from numpy import matlib
-    from math import pow
-    # Create an identity matrix
-    iden=np.matlib.identity(int(pow(2,size)))
-    # Swap the two last rows to create a controlled NOT gate
-    iden[[len(iden)-2, len(iden)-1]] = iden[[len(iden)-1, len(iden)-2]]
-    # Convert the controlled NOT matrix to an Operator
-    OP=Operator(iden)
-    # Append the operator to the circuit
-    cxconnect=[]
-    for n in range(size-1,-1,-1):
-        cxconnect.append(n)
-        print(cxconnect)
-    circuit.append(OP,cxconnect)
-    return(circuit)
 
 # The visualizarion functions
 def print_psi(psi):
@@ -175,7 +155,7 @@ def run_grover(oracle_type,groverCircuit,backend):
 def mitigated_results(backend,circuit,results,results_sim):
     from qiskit import Aer, execute
     from qiskit import QuantumRegister
-    # Import the required methods
+    # Import the required classes
     from qiskit.providers.aer.noise import NoiseModel
     from qiskit.ignis.mitigation.measurement import (complete_meas_cal,CompleteMeasFitter)
     from qiskit.tools.visualization import plot_histogram

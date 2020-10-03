@@ -6,7 +6,7 @@ Created on Sat Jun 13 17:24:58 2020
 @author: hnorlen
 """
 # Import the required functions
-from ch10_grover_functions import create_oracle, create_amplifier, create_grover, display_circuit, get_backend, run_grover, mitigated_results, transpile_circuit 
+from ch10_grover_functionsC3XGate import create_oracle, create_amplifier, create_grover, display_circuit, get_backend, run_grover, mitigated_results, transpile_circuit 
 
 # Main loop
 def main():
