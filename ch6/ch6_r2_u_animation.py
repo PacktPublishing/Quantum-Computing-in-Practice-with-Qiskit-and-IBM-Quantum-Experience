@@ -1,7 +1,7 @@
 ## !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed May 13 19:41:46 2020
+Created on Sun Oct 03 2020
 
 @author: hassi
 """
@@ -15,8 +15,8 @@ from qiskit.visualization import plot_bloch_multivector, plot_state_qsphere
 from PIL import Image
 import os
 
-print("Animating the U gates")
-print("---------------------")
+print("Ch 6: Animating the U gates")
+print("---=----------------------")
 
 # This program requires an /images directory at the same location as the script.
 dirName = 'images'

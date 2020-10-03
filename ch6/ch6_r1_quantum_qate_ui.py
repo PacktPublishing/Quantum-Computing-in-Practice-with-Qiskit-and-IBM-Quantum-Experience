@@ -1,6 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-User interface software that demonstrates the quantum gates
+Created on Sun Oct 03 2020
+
+@author: hassi
 """
 
 # Import the required math
@@ -48,7 +51,7 @@ def get_unitary(circuit):
 
 # Function that creates a quantum circuit
 def create_circuit(n_qubits,start):
-    # Create the quantum circuit
+    # Create the initial state vector
     if start=="1":
         initial_vector = [0,complex(1,0)]
     elif start=="+":
@@ -71,11 +74,6 @@ def create_circuit(n_qubits,start):
         b = cmath.exp(phi*1j)*sin(theta/2)
         initial_vector = [a * complex(1, 0), b * complex(1, 0)]
     elif start=="d":
-        '''
-        # Specify initial vector
-        theta=float(input("\u03D5:\n"))
-        phi=float(input("\u03B8:\n"))
-        '''
         a = cos(start_theta/2)
         b = cmath.exp(start_phi*1j)*sin(start_theta/2)
         initial_vector = [a * complex(1, 0), b * complex(1, 0)]
@@ -83,7 +81,7 @@ def create_circuit(n_qubits,start):
         initial_vector = [complex(1,0),0]
 
     if start!="n":
-        print("\nInitial vector for |"+start+">:")
+        print("\nInitial vector for |"+start+"\u232A:")
         print(np.around(initial_vector, decimals = 3))
         
     # Create the circuit
@@ -136,8 +134,8 @@ def qgate(gate,start):
 
 # Main navigation
 def main(): 
-    print("Visualizing the quantum gates")
-    print("-----------------------------")
+    print("Ch 6: Visualizing the quantum gates")
+    print("-----------------------------------")
     
     # Set the global parameters
     global phi, theta, lam, start_theta, start_phi
