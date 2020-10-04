@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sat Jun 13 17:24:58 2020
+Created on Sun Oct 03 2020
 
-@author: hnorlen
+@author: hassi
 """
 # Import the required functions
 from ch9_grover_functions import create_oracle, create_amplifier, create_grover, display_circuit, get_backend, run_grover, mitigated_results, transpile_circuit
