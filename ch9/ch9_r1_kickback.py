@@ -9,7 +9,7 @@ Created on Wed May 27 20:02:21 2020
 # Importing Qiskit
 from qiskit import QuantumCircuit
 # Import display circuit from our Grover collection
-from ch10_grover_functions import display_circuit
+from ch9_grover_functions import display_circuit
 
 def main():
     # First, let's see a phase shift
