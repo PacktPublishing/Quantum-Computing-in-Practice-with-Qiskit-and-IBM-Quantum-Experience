@@ -1,28 +1,26 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Created on Sun Sep 27 12:20:21 2020
 
-This is a temporary script file.
+@author: hassi
 """
 
-print("Ch 9: Ignis 1")
-print("--------------------------------------------------------------------------")
+print("Ch 8: Correct for the expected")
+print("------------------------------")
 
 # Import Qiskit and load account
 from qiskit import Aer, IBMQ, QuantumRegister, execute
 
-#from qiskit.providers.aer import noise
 from qiskit import QuantumCircuit
 from qiskit.tools.visualization import plot_histogram
 from qiskit.tools.monitor import job_monitor
+
 from IPython.core.display import display
 
-import numpy as np
-np.set_printoptions(precision=3)
-
-IBMQ.load_account()
+print("Getting providers...")
+if not IBMQ.active_account():
+    IBMQ.load_account()
 provider = IBMQ.get_provider()
-
 
 def select_backend():
     # Get all available and operational backends.
@@ -40,7 +38,38 @@ def select_backend():
         backend=select_backend
     return(backend)
 
-def mitigated_results(backend,circuit,results):
+def create_circuit():
+     #Create the circuit
+    circuit = QuantumCircuit(3)
+    circuit.h(0)
+    circuit.cx(0,1)
+    circuit.cx(0,2) 
+
+    circuit.measure_all()
+    print("Our circuit:")
+    display(circuit.draw('mpl'))
+    return(circuit)
+
+def simulator_results(circuit):
+    # Run the circuit on the local simulator
+    job = execute(circuit, backend=Aer.get_backend('qasm_simulator'), shots=8192)
+    job_monitor(job)
+    results = job.result()
+    sim_counts = results.get_counts()
+    print("Simulator results:\n",sim_counts)
+    return(sim_counts)
+
+def noisy_results(circuit,backend):
+    # Select backend and run the circuit
+    
+    job = execute(circuit, backend=backend, shots=8192)
+    job_monitor(job)
+    results = job.result()
+    noisy_counts = results.get_counts()
+    print(backend,"results:\n",noisy_counts)
+    return(noisy_counts,results)
+
+def mitigated_results(circuit,backend,results):
     # Import the required methods
     from qiskit.providers.aer.noise import NoiseModel
     from qiskit.ignis.mitigation.measurement import (complete_meas_cal,CompleteMeasFitter)
@@ -54,45 +83,32 @@ def mitigated_results(backend,circuit,results):
     job = execute(meas_calibs, backend=Aer.get_backend('qasm_simulator'), shots=8192, noise_model=noise_model)
     cal_results = job.result()
     meas_fitter = CompleteMeasFitter(cal_results, state_labels, circlabel='mcal')
-    print(meas_fitter.cal_matrix)
+    #print(meas_fitter.cal_matrix)
+    
+    # Plot the calibration matrix
+    print("Calibration matrix")
     meas_fitter.plot_calibration()
+    
     # Get the filter object
     meas_filter = meas_fitter.filter
     
     # Results with mitigation
     mitigated_results = meas_filter.apply(results)
     mitigated_counts = mitigated_results.get_counts(0)
-
+    print("Mitigated",backend,"results:\n",mitigated_counts)
     return(mitigated_counts)
 
-
-qc = QuantumCircuit(3)
-qc.h(0)
-qc.cx(0,1)
-qc.cx(0,2) 
-#qc.h(3)
-#qc.cx(3,4) 
-qc.measure_all()
-display(qc.draw('mpl'))
-
-job = execute(qc, backend=Aer.get_backend('qasm_simulator'), shots=8192)
-job_monitor(job)
-results = job.result()
-sim_counts = results.get_counts()
-print(sim_counts)
-
-
-backend=select_backend()
-job = execute(qc, backend=backend, shots=8192)
-job_monitor(job)
-results = job.result()
-noisy_counts = results.get_counts()
-print(noisy_counts)
-
-mitigated_counts=mitigated_results(backend,qc,results)
-
-
-print(mitigated_counts)
-
-
-display(plot_histogram([sim_counts, noisy_counts, mitigated_counts], legend=['sim','noisy', 'mitigated']))
+def main():
+    backend=select_backend()
+    circ=create_circuit()
+    sim_counts=simulator_results(circ)
+    noisy_counts,results=noisy_results(circ,backend)
+    # Analyze and error correct the measurements 
+    mitigated_counts=mitigated_results(circ,backend,results)
+        
+    # Show all results as a comparison
+    print("Final results:")
+    display(plot_histogram([sim_counts, noisy_counts, mitigated_counts], legend=['sim','noisy', 'mitigated']))
+       
+if __name__ == '__main__':
+    main()
