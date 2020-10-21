@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-print("Ch 8: Adding the noise profile of an IBM Q machine to your local simulator")
+print("Ch 7: Adding the noise profile of an IBM Q machine to your local simulator")
 print("--------------------------------------------------------------------------")
 
 # Import Qiskit and load account

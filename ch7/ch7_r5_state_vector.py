@@ -44,7 +44,7 @@ def s_vec(circuit):
 def main():
     user_input=1
     while user_input!=0:
-        print("Ch 8: Running “diagnostics” with the state vector simulator")
+        print("Ch 7: Running “diagnostics” with the state vector simulator")
         print("-----------------------------------------------------------")    
         user_input=int(input("\nNumber of qubits:\n"))
         circ_type=input("Superposition 's or entanglement 'e'?\n(To add a phase angle, use 'sp or 'ep'.)\n")

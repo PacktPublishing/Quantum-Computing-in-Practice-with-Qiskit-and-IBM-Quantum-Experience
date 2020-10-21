@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-print("Ch 8: IBM Q simulators and how they are used")
+print("Ch 7: IBM Q simulators and how they are used")
 print("--------------------------------------------")
 
 # Import Qiskit and load account
@@ -34,7 +34,7 @@ print("\nSimulator configuration details:")
 for sim in range(0,len(simulators)):
     print("\n")
     print(simulators[sim].backend_name)
-    print(simulators[sim])
+    print(simulators[sim].to_dict())
     
 # Fish out criteria to compare
 print("\n")

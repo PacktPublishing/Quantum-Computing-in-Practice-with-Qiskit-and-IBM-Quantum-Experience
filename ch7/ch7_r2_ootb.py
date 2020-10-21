@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-print("Ch 8: Aer out of the box, a perfect quantum computer")
+print("Ch 7: Aer out of the box, a perfect quantum computer")
 print("----------------------------------------------------")
 
 # Import Qiskit

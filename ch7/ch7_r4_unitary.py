@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-print("Ch 8: Understanding your circuits with the unitary simulator")
-print("-----------------------------------------------------------")
+print("Ch 7: Understanding your circuits with the unitary simulator")
+print("------------------------------------------------------=-----")
 
 # Import the required Qiskit classes
 from qiskit import(QuantumCircuit, execute, Aer)
