@@ -4,7 +4,7 @@
 from qiskit import IBMQ
 from qiskit.providers.ibmq import least_busy
 
-print("Ch 6: Least busy backend")
+print("Ch 5: Least busy backend")
 print("------------------------")
 
 print("Getting provider...")

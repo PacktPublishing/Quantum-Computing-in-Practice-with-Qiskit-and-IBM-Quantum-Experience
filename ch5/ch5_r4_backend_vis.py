@@ -10,7 +10,7 @@ from qiskit.visualization import plot_gate_map, plot_error_map, plot_circuit_lay
 
 from IPython.core.display import display
 
-print("Ch 6: Backend visualization")
+print("Ch 5: Backend visualization")
 print("---------------------------")
 
 print("Getting provider...")

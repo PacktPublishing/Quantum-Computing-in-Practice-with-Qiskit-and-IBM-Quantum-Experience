@@ -4,7 +4,7 @@
 from qiskit import IBMQ, QuantumCircuit, execute
 from qiskit.tools.monitor import job_monitor
 
-print("Ch 6: Identifying backends")
+print("Ch 5: Identifying backends")
 print("--------------------------")
 
 print("Getting provider...")

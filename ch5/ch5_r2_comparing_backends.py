@@ -7,7 +7,7 @@ from qiskit.visualization import plot_histogram
 
 from IPython.core.display import display
 
-print("Ch 6: Comparing backends")
+print("Ch 5: Comparing backends")
 print("------------------------")
 
 print("Getting provider...")
