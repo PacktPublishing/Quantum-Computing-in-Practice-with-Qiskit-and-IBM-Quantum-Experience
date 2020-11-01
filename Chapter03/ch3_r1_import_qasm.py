@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+Created Nov 2020
+
+@author: hassi
+"""
 
 # For this simple recipe we will only need the QuantumCircuit method
 from qiskit import QuantumCircuit

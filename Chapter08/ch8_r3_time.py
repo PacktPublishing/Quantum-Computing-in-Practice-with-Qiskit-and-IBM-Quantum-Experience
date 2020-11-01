@@ -1,8 +1,9 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Created Nov 2020
 
-This is a temporary script file.
+@author: hassi
 """
 
 print("Ch 8: How many gates do I have time for")

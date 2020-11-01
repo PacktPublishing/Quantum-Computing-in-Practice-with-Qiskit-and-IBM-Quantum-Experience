@@ -1,5 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created Nov 2020
+
+@author: hassi
+"""
 
 from qiskit import IBMQ, Aer, QuantumCircuit, ClassicalRegister, QuantumRegister, execute
 from qiskit.tools.monitor import job_monitor
@@ -9,7 +14,7 @@ from qiskit.compiler import transpile
 
 from IPython.core.display import display
 
-print("Ch 9: Comparing qubits on a chip")
+print("Ch 8: Comparing qubits on a chip")
 print("--------------------------------")
 
 print("Getting provider...")

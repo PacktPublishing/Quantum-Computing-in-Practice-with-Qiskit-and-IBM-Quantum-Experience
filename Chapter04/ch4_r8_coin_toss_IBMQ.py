@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon May 20 21:07:00 2019
+Created Nov 2020
 
-@author: hnorlen
+@author: hassi
 """
 
 from qiskit import QuantumCircuit, execute

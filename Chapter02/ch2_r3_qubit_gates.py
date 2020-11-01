@@ -1,5 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created Nov 2020
+
+@author: hassi
+"""
 
 # Let's start by importing all we need.
 import numpy as np
@@ -12,7 +17,7 @@ print("-------------------")
 print("Vector representations of our qubits:")
 print("-------------------------------------")
 
-qubits = {"|0>":np.array([1,0]), "|1>":np.array([0,1]), "(|0>+|1>)/\u221a2":1/sqrt(2)*np.array([1,1])}
+qubits = {"|0\u27E9":np.array([1,0]), "|1\u27E9":np.array([0,1]), "(|0\u27E9+|1\u27E9)/\u221a2":1/sqrt(2)*np.array([1,1])}
 
 for q in qubits:
   print(q, "\n", qubits[q].round(3)) 
@@ -45,7 +50,7 @@ input("Press return to continue...\n")
 print("Vector representations of our two qubits:")
 print("-----------------------------------------")
 
-twoqubits = {"|00>":np.array([1,0,0,0]), "|01>":np.array([0,1,0,0]),"|10>":np.array([0,0,1,0]),"|11>":np.array([0,0,0,1]),"|PH>":np.array([0.5,-0.5,0.5,-0.5])}
+twoqubits = {"|00\u27E9":np.array([1,0,0,0]), "|01\u27E9":np.array([0,1,0,0]),"|10\u27E9":np.array([0,0,1,0]),"|11\u27E9":np.array([0,0,0,1]),"|PH\u27E9":np.array([0.5,-0.5,0.5,-0.5])}
 
 for b in twoqubits:
   print(b, "\n", twoqubits[b]) 
@@ -71,4 +76,3 @@ for g in twogates:
     for b in twoqubits:
         print(b,"\n",twoqubits[b],"->", np.dot(twogates[g],twoqubits[b])) 
     print("\n")
-

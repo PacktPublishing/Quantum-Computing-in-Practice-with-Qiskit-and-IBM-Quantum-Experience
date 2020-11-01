@@ -1,7 +1,7 @@
-## !/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Oct 03 2020
+Created Nov 2020
 
 @author: hassi
 """
@@ -16,7 +16,7 @@ from PIL import Image
 import os
 
 print("Ch 6: Animating the U gates")
-print("---=----------------------")
+print("--------------------------")
 
 # This program requires an /images directory at the same location as the script.
 dirName = 'images'

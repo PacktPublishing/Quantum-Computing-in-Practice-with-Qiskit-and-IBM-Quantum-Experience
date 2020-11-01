@@ -1,5 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created Nov 2020
+
+@author: hassi
+"""
 
 print("Ch 7: Aer out of the box, a perfect quantum computer")
 print("----------------------------------------------------")

@@ -1,8 +1,13 @@
-#!/usr/bin/env python
-# coding: utf-8
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created Nov 2020
+
+@author: hassi
+"""
 
 print("Ch 7: Understanding your circuits with the unitary simulator")
-print("------------------------------------------------------=-----")
+print("------------------------------------------------------------")
 
 # Import the required Qiskit classes
 from qiskit import(QuantumCircuit, execute, Aer)
