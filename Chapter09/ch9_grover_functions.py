@@ -18,6 +18,9 @@ def create_oracle(oracle_type,size):
     cr = ClassicalRegister(size)
     oracleCircuit=QuantumCircuit(qr,cr)
     oracle_type_rev=oracle_type[::-1]
+    for n in range(size-1,-1,-1):
+        if oracle_type_rev[n] =="0":
+            oracleCircuit.x(qr[n])
     oracleCircuit.h(qr[size-1])
     if size==2: 
         oracleCircuit.cx(qr[size-2],qr[size-1]);

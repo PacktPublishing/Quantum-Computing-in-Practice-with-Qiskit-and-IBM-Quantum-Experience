@@ -26,7 +26,7 @@ def plot_results(average,search,values):
 def main():
     import random
     # Create 'database' and set initial oracle
-    values=("00","01","10","11","01","10","11","01","10","11","01","10","11","01","10","11")
+    values=("00","01","10","11")
     oracle=""
     print("Ch 10: Classical search")
     print("-----------------------")

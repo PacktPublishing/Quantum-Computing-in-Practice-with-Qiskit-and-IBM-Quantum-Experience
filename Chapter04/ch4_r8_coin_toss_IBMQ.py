@@ -35,6 +35,7 @@ job = execute(qc, backend, shots=1000)
 job_monitor(job)
 
 result = job.result()
+print(result)
 counts = result.get_counts(qc)
 from qiskit.tools.visualization import plot_histogram
 display(plot_histogram(counts))

@@ -50,7 +50,6 @@ def main():
 
     input("Press Enter to set qubits in superposition...")
     qc.h([0,1])
-    qc.barrier([0,1])
     display_circuit(qc,True,False)
 
     input("Press Enter to phase shift second qubit using Z gate...")
