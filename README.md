@@ -1,21 +1,21 @@
-# Quantum Computing in Practice with IBM Q Experience
+# Quantum Computing in Practice with Qiskit and IBM Quantum Experience
 
-<a href="https://www.packtpub.com/programming/quantum-computing-in-practice-with-ibm-q-experience?utm_source=github&utm_medium=repository&utm_campaign=9781838828448"><img src="https://static.packt-cdn.com/products/9781838828448/cover/smaller" alt="Quantum Computing in Practice with IBM Q Experience" height="256px" align="right"></a>
+<a href="https://www.packtpub.com/programming/quantum-computing-in-practice-with-ibm-q-experience?utm_source=github&utm_medium=repository&utm_campaign=9781838828448"><img src="https://static.packt-cdn.com/products/9781838828448/cover/smaller" alt="Quantum Computing in Practice with Qiskit and IBM Quantum Experience" height="256px" align="right"></a>
 
-This is the code repository for [Quantum Computing in Practice with IBM Q Experience](https://www.packtpub.com/programming/quantum-computing-in-practice-with-ibm-q-experience?utm_source=github&utm_medium=repository&utm_campaign=9781838828448), published by Packt.
+This is the code repository for [Quantum Computing in Practice with Qiskit and IBM Quantum Experience](https://www.packtpub.com/programming/quantum-computing-in-practice-with-ibm-q-experience?utm_source=github&utm_medium=repository&utm_campaign=9781838828448), published by Packt.
 
 **Practical recipes for quantum computer coding at the gate and algorithm level with Python**
 
 ## What is this book about?
-IBM Q Experience is a leading platform for simulating quantum computers as it helps to implement quantum solutions directly on the cloud. This book will help you get up to speed with programming quantum computers and provide solutions to the most common problems and challenges. 
+This book is a recipe-based guide for developers interested in programming quantum computers with IBM Quantum® Experience and Qiskit®. You'll learn all the concepts and components of Qiskit that you need for programming quantum computers, from visualizing circuits and gates with Qiskit Terra and simulating realistic noise profiles with Qiskit Aer, to delving into quantum algorithms with Aqua. 
 
 This book covers the following exciting features:
 Visualize a qubit in Python and understand the concept of superposition
 Install a local Qiskit simulator and connect to actual quantum hardware
-Compose quantum programs at the level of circuits using Qiskit Terra
-Compare and contrast Noisy Intermediate-Scale Quantum computers (NISQ) and Universal Fault-Tolerant quantum computing using simulators and actual IBM Q hardware
-Mitigate noise profiles in quantum circuits and systems using Qiskit Ignis
-Understand the difference between classical and quantum algorithms by implementing Grover’s algorithm in Qiskit
+Compose quantum programs at the level of circuits using Qiskit® Terra
+Compare and contrast Noisy Intermediate-Scale Quantum computing (NISQ) and Universal Fault-Tolerant quantum computing using simulators and IBM Quantum® hardware
+Mitigate noise in quantum circuits and systems using Qiskit® Ignis
+Understand the difference between classical and quantum algorithms by implementing Grover’s algorithm in Qiskit®	
 
 
 If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1838828443) today!
@@ -38,8 +38,9 @@ With the following software and hardware list you can run all code files present
 ### Software and Hardware List
 | No | Software required | OS required |
 | -------- | ------------------------------------ | ----------------------------------- |
-| 1 | Python | Windows, Mac OS X, and Linux (Any) |
-| 2 | Delphi | Windows, Mac OS X, and Linux (Any) |
+| 1 | Python 3.7 | Windows, Mac OS X, and Linux (Any) |
+| 2 | Qiskit 0.21.0 | Windows, Mac OS X, and Linux (Any) |
+| 3 | Anaconda Navigator 1.9 | Windows, Linux, macOS |
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://static.packt-cdn.com/downloads/9781838828448_ColorImages.pdf).
 
