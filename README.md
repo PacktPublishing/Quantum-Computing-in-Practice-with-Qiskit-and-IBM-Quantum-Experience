@@ -45,15 +45,14 @@ With the following software and hardware list you can run all code files present
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://static.packt-cdn.com/downloads/9781838828448_ColorImages.pdf).
 
 ### Related products
-* Delphi Programming Projects [[Packt]](https://www.packtpub.com/product/delphi-programming-projects/9781789130553?utm_source=github&utm_medium=repository&utm_campaign=9781789130553) [[Amazon]](https://www.amazon.com/dp/1789130557)
+* Learn Quantum Computing with Python and IBM Quantum Experience [[Packt]](https://www.packtpub.com/product/learn-quantum-computing-with-python-and-ibm-q-experience/9781838981006) [[Amazon]](https://www.amazon.com/dp/B08BWZ9M1W)
 
-* Delphi High Performance [[Packt]](https://www.packtpub.com/product/delphi-high-performance/9781788625456?utm_source=github&utm_medium=repository&utm_campaign=9781788625456) [[Amazon]](https://www.amazon.com/dp/1788625455)
+* Quantum Computing and Blockchain in Business [[Packt]](https://www.packtpub.com/product/quantum-computing-and-blockchain-in-business/9781838647766) [[Amazon]](https://www.amazon.com/dp/1838647767)
 
 
 
 ## Get to Know the Author
-**Hassi Norlen**
-Hassi Norlen is a Physicist and science educator who works as an IBM Quantum Ambassador and Content Design lead with IBM Watson IoT Solutions. Before joining the IBM Watson IoT Solutions team, Hassi worked with information design across several IBM divisions, notably IBM BigInsights in the field of Big Data, InfoSphere Optim database management software with products such as IBM InfoSphere Workload Replay (ID lead) and IBM Data Server Manager, and Enterprise Content Management (ECM) with products such as IBM FileNet and IBM Web Content Manager.
+**Hassi Norlen** is a Physicist and science educator who works as an IBM Quantum Ambassador and Content Design lead with IBM Watson IoT Solutions. Before joining the IBM Watson IoT Solutions team, Hassi worked with information design across several IBM divisions, notably IBM BigInsights in the field of Big Data, InfoSphere Optim database management software with products such as IBM InfoSphere Workload Replay (ID lead) and IBM Data Server Manager, and Enterprise Content Management (ECM) with products such as IBM FileNet and IBM Web Content Manager.
 
 
 
