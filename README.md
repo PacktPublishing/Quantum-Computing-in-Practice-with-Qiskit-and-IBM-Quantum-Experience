@@ -34,7 +34,7 @@ if a+b == c
 **Following is what you need for this book:**
 This book is for developers, data scientists, machine learning researchers, or quantum computing enthusiasts who want to understand how to use IBM Q Experience and Qiskit to implement quantum solutions and gain practical quantum computing experience. Python programming experience is a must to grasp the concepts covered in the book more effectively. Basic knowledge of quantum computing will also be beneficial.
 
-With the following software and hardware list you can run all code files present in the book (Chapter 1-13).
+With the following software and hardware list you can run all code files present in the book (Chapter 1-10).
 ### Software and Hardware List
 | No | Software required | OS required |
 | -------- | ------------------------------------ | ----------------------------------- |
