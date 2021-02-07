@@ -12,6 +12,8 @@ import cmath
 from math import pi, sin, cos
 from qiskit.visualization import plot_bloch_vector
 
+from IPython.core.display import display
+
 np.set_printoptions(precision=3)
 
 print("Ch 2: Bloch sphere visualization of bits and qubits")
