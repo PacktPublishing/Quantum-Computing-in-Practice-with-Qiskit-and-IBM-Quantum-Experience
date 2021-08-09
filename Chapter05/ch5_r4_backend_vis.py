@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created Nov 2020
+Updated Aug 2021
 
 @author: hassi
 """
@@ -25,7 +26,7 @@ provider = IBMQ.get_provider()
 
 # Get all available and operational backends.
 print("Getting the available backends...")
-available_backends = provider.backends(filters=lambda b: b.configuration().n_qubits > 1 and b.status().operational)
+available_backends = provider.backends(filters=lambda b: not b.configuration().simulator and b.configuration().num_qubits > 1 and b.status().operational) 
 
 # Fish out criteria to compare
 print("{0:20} {1:<10}".format("Name","#Qubits"))
@@ -33,14 +34,14 @@ print("{0:20} {1:<10}".format("----","-------"))
 
 for n in range(0, len(available_backends)):
     backend = provider.get_backend(str(available_backends[n]))
-    print("{0:20} {1:<10}".format(backend.name(),backend.configuration().n_qubits))
+    print("{0:20} {1:<10}".format(backend.name(),backend.configuration().num_qubits))
 
 # Select a backend or go for the least busy backend with more than 1 qubits
 backend_input = input("Enter the name of a backend, or X for the least busy:")
 if backend_input not in ["X","x"]:
     backend = provider.get_backend(backend_input)
 else:
-    backend = least_busy(provider.backends(filters=lambda b: b.configuration().n_qubits > 1 and b.status().operational))
+    backend = least_busy(provider.backends(filters=lambda b: not b.configuration().simulator and b.configuration().num_qubits > 1 and b.status().operational))
 # Display the gate and error map for the backend.
 print("\nQubit data for backend:",backend.status().backend_name)
 
