@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created Nov 2020
+Updated Aug 2021
 
 @author: hassi
 """
@@ -20,7 +21,9 @@ provider = IBMQ.get_provider()
 print("\nAvailable backends:")
 print(provider.backends(operational=True, simulator=False))
 
-backend = provider.get_backend('ibmqx2')
+
+select_backend=input("Type in the name of a backend: ")
+backend = provider.get_backend(select_backend)
 print("\nSelected backend:", backend.name())
 
 # Create a quantum circuit to test
