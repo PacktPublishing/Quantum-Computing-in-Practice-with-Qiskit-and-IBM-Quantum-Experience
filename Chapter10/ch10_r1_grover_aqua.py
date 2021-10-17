@@ -9,8 +9,11 @@ Created Nov 2020
 from qiskit import Aer, IBMQ
 
 # Do the necessary import for our program
-from qiskit.aqua.algorithms import Grover
-from qiskit.aqua.components.oracles import LogicalExpressionOracle, TruthTableOracle
+#from qiskit.utils.algorithms import Grover
+from qiskit.algorithms import Grover, AmplificationProblem
+#from qiskit.aqua.components.oracles import LogicalExpressionOracle, TruthTableOracle, AmplificationProblem
+from qiskit.aqua.components.oracles import TruthTableOracle 
+from qiskit.circuit.library import PhaseOracle
 
 # Import basic plot tools
 from qiskit.tools.visualization import plot_histogram
@@ -47,15 +50,20 @@ def create_oracle(oracle_method):
 def create_grover(oracle_type, oracle_method):
     # Build the circuit
     if oracle_method=="log":
-        algorithm = Grover(LogicalExpressionOracle(oracle_type),num_iterations=num_iterations)
-        oracle_circuit = Grover(LogicalExpressionOracle(oracle_type)).construct_circuit()
+        #algorithm = Grover(LogicalExpressionOracle(oracle_type),num_iterations=num_iterations)
+        algorithm = Grover(PhaseOracle(oracle_type))
+        #problem = AmplificationProblem(num_iterations=num_iterations)
+        oracle_circuit = Grover(PhaseOracle(oracle_type)).construct_circuit()
     else:
-        algorithm = Grover(TruthTableOracle(oracle_type),num_iterations=num_iterations)
+        #algorithm = Grover(TruthTableOracle(oracle_type),num_iterations=num_iterations)
+        algorithm = Grover(TruthTableOracle(oracle_type))
+        #problem = AmplificationProblem(num_iterations=num_iterations)
         oracle_circuit = Grover(TruthTableOracle(oracle_type)).construct_circuit()
 
     display(oracle_circuit.draw(output="mpl"))
     display(algorithm)
     return(algorithm)
+    #return(algorithm, problem)
 
 def run_grover(algorithm,oracle_type,oracle_method):
     # Run the algorithm on a simulator, printing the most frequently occurring result
