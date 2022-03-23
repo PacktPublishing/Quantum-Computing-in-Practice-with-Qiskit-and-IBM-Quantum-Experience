@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created Nov 2020
+Created Nov 2020, Updated March 2022
 
 @author: hassi
 """
@@ -9,10 +9,9 @@ Created Nov 2020
 from qiskit import Aer, IBMQ
 
 # Do the necessary import for our program
-#from qiskit.utils.algorithms import Grover
+
+from qiskit.utils import QuantumInstance
 from qiskit.algorithms import Grover, AmplificationProblem
-#from qiskit.aqua.components.oracles import LogicalExpressionOracle, TruthTableOracle, AmplificationProblem
-from qiskit.aqua.components.oracles import TruthTableOracle 
 from qiskit.circuit.library import PhaseOracle
 
 # Import basic plot tools
@@ -24,18 +23,15 @@ global oracle_method, oracle_type
 
 
 def log_length(oracle_input,oracle_method):
-    from math import sqrt, pow, pi, log
-    if oracle_method=="log":
-        filtered = [c.lower() for c in oracle_input if c.isalpha()]
-        result = len(filtered)
-        num_iterations=int(pi/4*(sqrt(pow(2,result))))
-    else:
-        num_iterations = int(pi/4*(sqrt(pow(2,log(len(oracle_input),2)))))
+    from math import sqrt, pow, pi
+    filtered = [c.lower() for c in oracle_input if c.isalpha()]
+    result = len(filtered)
+    num_iterations=int(pi/4*(sqrt(pow(2,result))))
     print("Iterations: ", num_iterations)
     return num_iterations
 
 def create_oracle(oracle_method):
-    oracle_text={"log":"~A & ~B & C","bit":"00001000"}
+    oracle_text={"log":"~A & ~B & C"}
     # set the input
     global num_iterations    
     print("Enter the oracle input string, such as:"+oracle_text[oracle_method]+"\nor enter 'def' for a default string.")
@@ -49,31 +45,24 @@ def create_oracle(oracle_method):
 
 def create_grover(oracle_type, oracle_method):
     # Build the circuit
-    if oracle_method=="log":
-        #algorithm = Grover(LogicalExpressionOracle(oracle_type),num_iterations=num_iterations)
-        algorithm = Grover(PhaseOracle(oracle_type))
-        #problem = AmplificationProblem(num_iterations=num_iterations)
-        oracle_circuit = Grover(PhaseOracle(oracle_type)).construct_circuit()
-    else:
-        #algorithm = Grover(TruthTableOracle(oracle_type),num_iterations=num_iterations)
-        algorithm = Grover(TruthTableOracle(oracle_type))
-        #problem = AmplificationProblem(num_iterations=num_iterations)
-        oracle_circuit = Grover(TruthTableOracle(oracle_type)).construct_circuit()
+    oracle = PhaseOracle(oracle_type)
+    problem = AmplificationProblem(oracle, is_good_state=oracle.evaluate_bitstring)
+    algorithm = Grover(iterations=num_iterations, quantum_instance=QuantumInstance(Aer.get_backend('aer_simulator'), shots=1024))
+    #oracle_circuit = algorithm.construct_circuit(problem)
 
-    display(oracle_circuit.draw(output="mpl"))
+    #display(oracle_circuit.draw(output="mpl"))
     display(algorithm)
-    return(algorithm)
+    return(algorithm,problem)
     #return(algorithm, problem)
 
-def run_grover(algorithm,oracle_type,oracle_method):
+def run_grover(algorithm,problem, oracle_type,oracle_method):
     # Run the algorithm on a simulator, printing the most frequently occurring result
 
     backend = Aer.get_backend('qasm_simulator')
-    result = algorithm.run(backend)
-    print("Oracle method:",oracle_method)
-    print("Oracle for:", oracle_type)
-    print("Aer Result:",result['top_measurement'])
-    display(plot_histogram(result['measurement']))
+    
+    result = algorithm.amplify(problem)
+    display(plot_histogram(result.circuit_results[0]))
+    
     
     # Run the algorithm on an IBM Q backend, printing the most frequently occurring result
     print("Getting provider...")
@@ -82,16 +71,16 @@ def run_grover(algorithm,oracle_type,oracle_method):
     provider = IBMQ.get_provider()
     from qiskit.providers.ibmq import least_busy
     
-    filtered_backend = least_busy(provider.backends(n_qubits=5, operational=True, simulator=False))
+    backend = least_busy(provider.backends(n_qubits=5, operational=True, simulator=False))
         
-    result = algorithm.run(filtered_backend)
+    result = algorithm.amplify(problem)
+    display(plot_histogram(result.circuit_results[0]))
 
     print("Oracle method:",oracle_method)
     print("Oracle for:", oracle_type)
-    print("IBMQ "+filtered_backend.name()+" Result:",result['top_measurement'])
-    display(plot_histogram(result['measurement']))
-
-    print(result)
+    print("IBMQ "+backend.name()+" Result:",result.top_measurement)
+    display(plot_histogram(result.circuit_results))
+    #print(result)
 
 # Main loop
 def main():
@@ -100,10 +89,10 @@ def main():
         print("Ch 11: Grover search with Aqua")
         print("------------------------------")    
         # set the oracle method: "Log" for logical expression or "Bit" for bit string. 
-        oracle_method = input("Select oracle method (log or bit):\n")
+        oracle_method = 'log' #input("Select oracle method (log or bit):\n")
         type=create_oracle(oracle_method)
-        algorithm=create_grover(type, oracle_method)
-        run_grover(algorithm,type, oracle_method)
+        algorithm, problem=create_grover(type, oracle_method)
+        run_grover(algorithm,problem, type, oracle_method)
     
 if __name__ == '__main__':
     main()
