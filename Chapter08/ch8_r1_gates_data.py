@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created Nov 2020
+Created Nov 2020, Updated March 2022 
 
 @author: hassi
 """
@@ -48,7 +48,7 @@ def display_information(backend):
         print("T2:",int(backend.properties().t2(qubit)*micro),"\u03BCs")
         print("Readout error:",round(backend.properties().readout_error(qubit)*100,2),"%")
         for bg in basis_gates:
-            if bg!="cx":
+            if bg!="cx" and bg!="reset":
                 if backend.properties().gate_length(bg,[qubit])!=0:
                     print(bg,round(backend.properties().gate_length(bg,[0])*micro,2),"\u03BCs", "Err:",round(backend.properties().gate_error(bg,[qubit])*100,2),"%") 
                 else:    
