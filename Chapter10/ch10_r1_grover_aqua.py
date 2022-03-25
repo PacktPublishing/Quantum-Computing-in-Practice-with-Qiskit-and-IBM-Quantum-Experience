@@ -22,12 +22,11 @@ from IPython.core.display import display
 global oracle_method, oracle_type
 
 
-def log_length(oracle_input,oracle_method):
+def log_length(oracle_input):
     from math import sqrt, pow, pi
     filtered = [c.lower() for c in oracle_input if c.isalpha()]
     result = len(filtered)
     num_iterations=int(pi/4*(sqrt(pow(2,result))))
-    print("Iterations: ", num_iterations)
     return num_iterations
 
 def create_oracle(oracle_method):
@@ -40,59 +39,44 @@ def create_oracle(oracle_method):
         oracle_type=oracle_text[oracle_method]
     else:
         oracle_type = oracle_input
-    num_iterations=log_length(oracle_type, oracle_method)
+    num_iterations=log_length(oracle_type)
+    print("Iterations: ", num_iterations)
     return(oracle_type)
 
-def create_grover(oracle_type, oracle_method):
-    # Build the circuit
+def run_grover(oracle_type, oracle_method, backend):
+    # Create and run the oracle on the selected backen
     oracle = PhaseOracle(oracle_type)
     problem = AmplificationProblem(oracle, is_good_state=oracle.evaluate_bitstring)
-    algorithm = Grover(iterations=num_iterations, quantum_instance=QuantumInstance(Aer.get_backend('aer_simulator'), shots=1024))
-    #oracle_circuit = algorithm.construct_circuit(problem)
-
-    #display(oracle_circuit.draw(output="mpl"))
-    display(algorithm)
-    return(algorithm,problem)
-    #return(algorithm, problem)
-
-def run_grover(algorithm,problem, oracle_type,oracle_method):
-    # Run the algorithm on a simulator, printing the most frequently occurring result
-
-    backend = Aer.get_backend('qasm_simulator')
-    
+    algorithm = Grover(iterations=num_iterations, quantum_instance=QuantumInstance(backend, shots=1024))
+    # Display the results
     result = algorithm.amplify(problem)
     display(plot_histogram(result.circuit_results[0]))
+    print("Backend:",backend.name()+"\nResult:",result.top_measurement)
     
-    
-    # Run the algorithm on an IBM Q backend, printing the most frequently occurring result
-    print("Getting provider...")
-    if not IBMQ.active_account():
-        IBMQ.load_account()
-    provider = IBMQ.get_provider()
-    from qiskit.providers.ibmq import least_busy
-    
-    backend = least_busy(provider.backends(n_qubits=5, operational=True, simulator=False))
-        
-    result = algorithm.amplify(problem)
-    display(plot_histogram(result.circuit_results[0]))
-
-    print("Oracle method:",oracle_method)
-    print("Oracle for:", oracle_type)
-    print("IBMQ "+backend.name()+" Result:",result.top_measurement)
-    display(plot_histogram(result.circuit_results))
-    #print(result)
 
 # Main loop
 def main():
+    # set the oracle method: "Log" for logical expression  
     oracle_method="log"
     while oracle_method!=0:
         print("Ch 11: Grover search with Aqua")
         print("------------------------------")    
-        # set the oracle method: "Log" for logical expression or "Bit" for bit string. 
-        oracle_method = 'log' #input("Select oracle method (log or bit):\n")
-        type=create_oracle(oracle_method)
-        algorithm, problem=create_grover(type, oracle_method)
-        run_grover(algorithm,problem, type, oracle_method)
+        # Set the oracle type
+        oracle_type=create_oracle(oracle_method)
+
+        print("Oracle method:",oracle_method)
+        print("Oracle for:", oracle_type)
+        # Run on a simulator
+        backend = Aer.get_backend('qasm_simulator')
+        run_grover(oracle_type, oracle_method, backend)
+        # Run the algorithm on an IBM Quantum backend
+        print("Getting provider...")
+        if not IBMQ.active_account():
+            IBMQ.load_account()
+        provider = IBMQ.get_provider()
+        from qiskit.providers.ibmq import least_busy
+        backend = least_busy(provider.backends(n_qubits=5, operational=True, simulator=False))
+        run_grover(oracle_type, oracle_method, backend)
     
 if __name__ == '__main__':
     main()
