@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created Nov 2020
+Modified Aug 2021s
 
 @author: hassi
 """
@@ -32,7 +33,11 @@ for sim in range(0,len(backends)):
 
 # Add IBM Q simulator
 ibmq_simulator=provider.backends(simulator=True)
-simulators.append(provider.get_backend(str(ibmq_simulator[0])).configuration())
+#simulators.append(provider.get_backend(str(ibmq_simulator[0])).configuration())
+    
+for qsim in range(0,len(ibmq_simulator)):
+    backend = provider.get_backend(str(ibmq_simulator[qsim]))
+    simulators.append(backend.configuration())
 
 # Display the raw simulator configuration details
 print("\nSimulator configuration details:")
