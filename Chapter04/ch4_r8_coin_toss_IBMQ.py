@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created Nov 2020
+Created Nov 2020, updated Feb 2023
 
 @author: hassi
 """
 
 from qiskit import QuantumCircuit, execute
-from qiskit import IBMQ
+from qiskit_ibm_provider import IBMProvider
 from qiskit.tools.monitor import job_monitor
 from IPython.core.display import display
 
 print("Getting provider...")
-if not IBMQ.active_account():
-    IBMQ.load_account()
-provider = IBMQ.get_provider()
+if not IBMProvider.active_account:
+    IBMProvider.load_account()
+provider = IBMProvider()
 
 print("Ch 4: Quantum coin toss on IBM Q backend")
 print("----------------------------------------")
@@ -29,7 +29,7 @@ display(qc.draw('mpl'))
 
 from qiskit.providers.ibmq import least_busy
 backend = least_busy(provider.backends(n_qubits=5, operational=True, simulator=False))
-print(backend.name())
+print(backend.status().backend_name)
 
 job = execute(qc, backend, shots=1000)
 job_monitor(job)
