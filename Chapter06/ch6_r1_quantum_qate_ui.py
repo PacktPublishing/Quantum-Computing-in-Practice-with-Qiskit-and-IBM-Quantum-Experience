@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created Nov 2020
+Updated March 2023
 
 @author: hassi
 """
@@ -21,13 +22,12 @@ from qiskit import QuantumCircuit, execute, Aer
 from qiskit.visualization import plot_bloch_multivector, plot_state_qsphere
 
 # Categorize our gates
-rot_gates=["rx","ry","rz"]
-unitary_gates=["u1","u2","u3"]
+rot_gates=["rx","ry","rz","u"]
 single_gates=["id","x","y","z","t","tdg","s","sdg","h"]+rot_gates
-oneq_gates=single_gates+unitary_gates
+oneq_gates=single_gates
 control_gates=["cx","cy","cz","ch"]
 twoq_gates=control_gates+["swap"]
-all_gates=oneq_gates+twoq_gates+rot_gates+unitary_gates
+all_gates=oneq_gates+twoq_gates
 # List our start states
 start_states=["1","+","-","R","L","r","d"]
 valid_start=["0"]+start_states
@@ -111,7 +111,7 @@ def qgate_out(circuit,start):
 # Function that adds a gate to a circuit  
 def qgate(gate,start): 
     # If the gates require angles, add those to the QASM code
-    qasm_angle_gates={"rx":"rx("+str(theta)+") q[0];", "ry":"ry("+str(theta)+") q[0];", "rz":"rz("+str(phi)+") q[0];", "u1":"u1("+str(phi)+") q[0];", "u2":"u2("+str(phi)+","+str(lam)+") q[0];", "u3":"u3("+str(theta)+","+str(phi)+","+str(lam)+") q[0];"}
+    qasm_angle_gates={"rx":"rx("+str(theta)+") q[0];", "ry":"ry("+str(theta)+") q[0];", "rz":"rz("+str(phi)+") q[0];", "u":"u("+str(theta)+","+str(phi)+","+str(lam)+") q[0];"}
 
     # Create the circuits and then add the gate using QASM import 
     if gate in oneq_gates:
@@ -123,13 +123,12 @@ def qgate(gate,start):
     qgate_out(circuit,start)
     
     if gate in oneq_gates:
-        if gate in rot_gates+unitary_gates:
-            circuit+=QuantumCircuit.from_qasm_str(qasm_string+qasm_angle_gates[gate])
+        if gate in rot_gates:
+            circuit=circuit.compose(QuantumCircuit.from_qasm_str(qasm_string+qasm_angle_gates[gate]))
         else:
-            circuit+=QuantumCircuit.from_qasm_str(qasm_string+gate+" q[0];")
+            circuit=circuit.compose(QuantumCircuit.from_qasm_str(qasm_string+gate+" q[0];"))
     else:
-        circuit+=QuantumCircuit.from_qasm_str(qasm_string+gate+" q[1],q[0];")
-    
+        circuit.compose(QuantumCircuit.from_qasm_str(qasm_string+gate+" q[1],q[0];"))
     return(circuit)
 
 # Main navigation
@@ -155,11 +154,11 @@ def main():
         # Select a gate
         print("Enter a gate:\nAvailable gates:\n",all_gates)
         gate=input()
-        if gate in ["rx", "ry","u3"]:
+        if gate in ["rx", "ry","u"]:
             theta=input("Enter rotation (\u03B8):\n")
-        if gate in ["u1","u2","u3","rz",]:
+        if gate in ["u","rz",]:
             phi=input("Enter rotation (\u03D5):\n")
-        if gate in ["u2","u3"]:
+        if gate in ["u"]:
             lam=input("Enter rotation (\u03BB):\n")
         if gate in all_gates and start in valid_start:
             # Display the gate unitary for a blank circuit
