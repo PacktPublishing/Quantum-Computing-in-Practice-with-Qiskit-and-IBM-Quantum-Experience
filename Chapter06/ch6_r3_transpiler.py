@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created Nov 2020
+Verified March 2023
 
 @author: hassi
 """
@@ -10,7 +11,8 @@ Created Nov 2020
 # coding: utf-8
 
 print("Loading Qiskit...")
-from qiskit import QuantumCircuit, IBMQ
+from qiskit import QuantumCircuit
+from qiskit_ibm_provider import IBMProvider
 from qiskit.compiler import transpile
 from qiskit.providers.ibmq import least_busy
 
@@ -18,9 +20,9 @@ from IPython.core.display import display
 
 # Load account and find an available 5-qubit backend
 print("Getting provider...")
-if not IBMQ.active_account():
-    IBMQ.load_account()
-provider = IBMQ.get_provider()
+if not IBMProvider.active_account:
+    IBMProvider.load_account()
+provider = IBMProvider()
 
 print("Getting backend...")
 backend = least_busy(provider.backends(n_qubits=5, operational=True, simulator=False))
