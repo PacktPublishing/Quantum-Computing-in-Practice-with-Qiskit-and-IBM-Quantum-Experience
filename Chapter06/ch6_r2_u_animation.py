@@ -15,8 +15,8 @@ from qiskit.visualization import plot_bloch_multivector, plot_state_qsphere
 from PIL import Image
 import os
 
-print("Ch 6: Animating the U gates")
-print("--------------------------")
+print("Ch 6: Animating the U gate")
+print("-------------------------")
 
 # This program requires an /images directory at the same location as the script.
 dirName = 'images'
@@ -35,7 +35,7 @@ def get_psi(circuit):
     psi = result.get_statevector(circuit)
     return(psi) 
 
-def create_images(gate,theta=0.0,phi=0.0,lam=0.0):
+def create_images(theta=0.0,phi=0.0,lam=0.0):
     # Set the loop parameters
     steps=20.0
     theta_steps=theta/steps
@@ -52,16 +52,8 @@ def create_images(gate,theta=0.0,phi=0.0,lam=0.0):
     # The image creation loop
     while n < steps+1:
         qc=QuantumCircuit(1)
-        if gate=="u3":
-            qc.u3(theta,phi,lam,0)
-            title="U3: \u03B8 = "+str(round(theta,2))+" \u03D5 = "+str(round(phi,2))+" \u03BB = "+str(round(lam,2))
-        elif gate=="u2":
-            qc.u2(phi,lam,0)
-            title="U2: \u03D5 = "+str(round(phi,2))+" \u03BB = "+str(round(lam,2))
-        else:
-            qc.h(0)
-            qc.u1(phi,0)
-            title="U1: \u03D5 = "+str(round(phi,2))
+        qc.u(theta,phi,lam,0)
+        title="U: \u03B8 = "+str(round(theta,2))+" \u03D5 = "+str(round(phi,2))+" \u03BB = "+str(round(lam,2))
 
         # Get the statevector of the qubit 
         # Create Bloch sphere images
@@ -81,12 +73,12 @@ def create_images(gate,theta=0.0,phi=0.0,lam=0.0):
 # Create and save the animated GIFs
 def save_gif(gate):
     duration=100
-    b_images[0].save(gate+'_'+b_filename+'.gif',
+    b_images[0].save('U_'+b_filename+'.gif',
                save_all=True,
                append_images=b_images[1:],
                duration=duration,
                loop=0)
-    q_images[0].save(gate+'_'+q_filename+'.gif',
+    q_images[0].save('U_'+q_filename+'.gif',
                save_all=True,
                append_images=q_images[1:],
                duration=duration,
@@ -101,19 +93,14 @@ def main():
     phi=0.0
     lam=0.0
     while gate !="exit": 
-        gate=input("Enter u1, u2, or u3:\n")
-        if gate =="u3":
-            theta=float(input("Enter \u03B8:\n"))
-        if gate in ["u3","u2","u1"]:
-            phi=float(input("Enter \u03D5:\n"))
-        if gate in ["u3","u2"]:
-            lam=float(input("Enter \u03BB:\n"))
-        if gate in ["u3","u2","u1"]:
-            print("Building animation...")
-            create_images(gate,theta,phi,lam)
-            save_gif(gate)
-        else:
-            print("Not a valid gate, try again...")
+        print("Enter U-gate rotation angles:")
+        theta=float(input("Enter \u03B8:\n"))
+        phi=float(input("Enter \u03D5:\n"))
+        lam=float(input("Enter \u03BB:\n"))
+        print("Building animation...")
+        create_images(theta,phi,lam)
+        save_gif(gate)
+
             
 if __name__ == '__main__':
     main()
